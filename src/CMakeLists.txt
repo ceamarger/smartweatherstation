@@ -9,12 +9,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 qt5_add_resources(QRC_RESSOURCES qml/qml.qrc)
 
-set(SOURCE
-    ${SOURCE}
-    main.cpp)
+file(GLOB SOURCE
+    *.cpp
+    core/*.cpp)
 
-set(HEADER
-    ${HEADER})
+file(GLOB HEADER
+    *.h
+    core/*.h)
 
 add_executable(${PROJECT_NAME} ${HEADER} ${SOURCE} ${QRC_RESSOURCES})
 

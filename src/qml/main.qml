@@ -16,7 +16,7 @@ Window {
 
         SWSText {
             id: timeText
-            text: "14h51"
+            text: dateTimeSettings.currentTime
             font.pixelSize: 25
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
@@ -26,10 +26,12 @@ Window {
 
         SWSText {
             id: dateText
-            text: "Samedi 7 Décembre 2019"
+            text: dateTimeSettings.currentDate
             font.pixelSize: 15
+            font.capitalization: Font.Capitalize
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 }
