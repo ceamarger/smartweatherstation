@@ -16,7 +16,7 @@ Window {
 
         SWSText {
             id: timeText
-            text: "14h51"
+            text: dateTimeSettings.currentTime
             font.pixelSize: 25
             font.bold: true
             horizontalAlignment: Text.AlignHCenter

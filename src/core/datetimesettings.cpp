@@ -12,3 +12,8 @@ QString DateTimeSettings::currentDate()
 {
     return QDate::currentDate().toString(Qt::DateFormat::SystemLocaleLongDate);
 }
+
+QString DateTimeSettings::currentTime()
+{
+    return QTime::currentTime().toString(Qt::DateFormat::SystemLocaleShortDate);
+}
