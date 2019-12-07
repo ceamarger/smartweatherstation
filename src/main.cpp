@@ -1,6 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include <QQmlContext>
+
+#include "core/environmentinitializer.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -14,6 +18,9 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    EnvironmentInitializer::getInstance().initializeContext(engine.rootContext());
+
     engine.load(url);
 
     return app.exec();

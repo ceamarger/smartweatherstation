@@ -26,8 +26,9 @@ Window {
 
         SWSText {
             id: dateText
-            text: "Samedi 7 Décembre 2019"
+            text: dateTimeSettings.currentDate
             font.pixelSize: 15
+            font.capitalization: Font.Capitalize
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
