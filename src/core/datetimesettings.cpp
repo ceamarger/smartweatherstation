@@ -5,7 +5,9 @@
 
 DateTimeSettings::DateTimeSettings(QObject *parent) : QObject(parent)
 {
-
+    connect(&m_clockTimer, &QTimer::timeout, this, &DateTimeSettings::onClockTimerTimeout);
+    m_clockTimer.setInterval(ClockInterval);
+    m_clockTimer.start();
 }
 
 QString DateTimeSettings::currentDate()
@@ -16,4 +18,9 @@ QString DateTimeSettings::currentDate()
 QString DateTimeSettings::currentTime()
 {
     return QTime::currentTime().toString(Qt::DateFormat::SystemLocaleShortDate);
+}
+
+void DateTimeSettings::onClockTimerTimeout()
+{
+    emit dateTimeChanged();
 }

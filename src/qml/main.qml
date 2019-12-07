@@ -31,6 +31,7 @@ Window {
             font.capitalization: Font.Capitalize
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 }

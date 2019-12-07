@@ -3,13 +3,14 @@
 
 #include <QObject>
 #include <QString>
+#include <QTimer>
 
 class DateTimeSettings : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString currentDate READ currentDate CONSTANT)
-    Q_PROPERTY(QString currentTime READ currentTime CONSTANT)
+    Q_PROPERTY(QString currentDate READ currentDate NOTIFY dateTimeChanged)
+    Q_PROPERTY(QString currentTime READ currentTime NOTIFY dateTimeChanged)
 
 public:
     explicit DateTimeSettings(QObject *parent = nullptr);
@@ -18,8 +19,15 @@ public:
     static QString currentTime();
 
 signals:
+    void dateTimeChanged();
 
 public slots:
+    void onClockTimerTimeout();
+
+private:
+    static constexpr int ClockInterval = 1000;
+
+    QTimer m_clockTimer;
 };
 
 #endif // DATETIMESETTINGS_H
