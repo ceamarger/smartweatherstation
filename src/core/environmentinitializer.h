@@ -3,6 +3,7 @@
 
 #include <QQmlContext>
 #include "datetimesettings.h"
+#include "../weather/weatherdata.h"
 
 class EnvironmentInitializer
 {
@@ -12,6 +13,7 @@ public:
     void initializeContext(QQmlContext* context);
 
     DateTimeSettings* dateTimeSettings() { return &m_dateTimeSettings; }
+    WeatherData* weatherData() { return &m_weatherData; }
 
 private:
     EnvironmentInitializer() = default;
@@ -20,6 +22,7 @@ private:
     EnvironmentInitializer& operator=(const EnvironmentInitializer&) = delete;
 
     DateTimeSettings m_dateTimeSettings;
+    WeatherData m_weatherData;
 };
 
 #endif // ENVIRONMENTINITIALIZER_H

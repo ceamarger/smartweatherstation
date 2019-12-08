@@ -14,11 +14,13 @@ qt5_add_resources(
 
 file(GLOB SOURCE
     *.cpp
-    core/*.cpp)
+    core/*.cpp
+    weather/*.cpp)
 
 file(GLOB HEADER
     *.h
-    core/*.h)
+    core/*.h
+    weather/*.h)
 
 add_executable(${PROJECT_NAME} ${HEADER} ${SOURCE} ${QRC_RESSOURCES})
 

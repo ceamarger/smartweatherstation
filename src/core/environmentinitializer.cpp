@@ -9,4 +9,5 @@ EnvironmentInitializer &EnvironmentInitializer::getInstance()
 void EnvironmentInitializer::initializeContext(QQmlContext* context)
 {
     context->setContextProperty("dateTimeSettings", dateTimeSettings());
+    context->setContextProperty("weatherData", weatherData());
 }
