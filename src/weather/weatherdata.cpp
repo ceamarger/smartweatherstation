@@ -1,7 +1,14 @@
 #include "weatherdata.h"
 
-WeatherData::WeatherData(QObject *parent) : QObject(parent)
+#include "openweathermapaccess.h"
+#include "weatherdatajsonkeys.h"
+
+#include <QtDebug>
+
+WeatherData::WeatherData(QObject *parent) :
+    QObject(parent)
 {
+    setWeatherAPIAccess(new OpenWeatherMapAccess);
 }
 
 void WeatherData::setOutdoorTemperature(quint16 outdoorTemperature)
@@ -38,4 +45,27 @@ void WeatherData::setSunsetTime(QTime sunsetTime)
 
     m_sunsetTime = sunsetTime;
     emit sunsetTimeChanged();
+}
+
+void WeatherData::setWeatherAPIAccess(AbstractWeatherAPIAccess *weatherAPIAccess)
+{
+    if (m_weatherAPIAccess == weatherAPIAccess)
+        return;
+
+    if (m_weatherAPIAccess)
+        m_weatherAPIAccess->deleteLater();
+
+    m_weatherAPIAccess = weatherAPIAccess;
+
+    connect(m_weatherAPIAccess, &AbstractWeatherAPIAccess::dataUpdated, this, &WeatherData::parseReceivedJsonData);
+}
+
+void WeatherData::parseReceivedJsonData(QJsonDocument jsonData)
+{
+    using namespace WeatherDataKeys;
+
+    setOutdoorTemperature(static_cast<quint16>(jsonData[OutdoorTemperature].toDouble() * 100));
+    setHumidityPercentage(static_cast<quint8>(jsonData[Humidity].toInt()));
+    setSunriseTime(QDateTime::fromSecsSinceEpoch(jsonData[Sunrise].toInt()).time());
+    setSunsetTime(QDateTime::fromSecsSinceEpoch(jsonData[Sunset].toInt()).time());
 }

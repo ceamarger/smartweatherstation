@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QTime>
+#include <QJsonDocument>
 
+#include "abstractweatherapiaccess.h"
 class WeatherData : public QObject
 {
     Q_OBJECT
@@ -25,17 +27,24 @@ public:
     void setSunriseTime(QTime sunriseTime);
     void setSunsetTime(QTime sunsetTime);
 
+    void setWeatherAPIAccess(AbstractWeatherAPIAccess* weatherAPIAccess);
+
 signals:
     void outdoorTemperatureChanged();
     void humidityPercentageChanged();
     void sunriseTimeChanged();
     void sunsetTimeChanged();
 
+private slots:
+    void parseReceivedJsonData(QJsonDocument jsonData);
+
 private:
     quint16 m_outdoorTemperature = 0; // centiKelvin (°K * 100)
     quint8 m_humidityPercentage = 0;
     QTime m_sunriseTime = QTime(0,0);
     QTime m_sunsetTime = QTime(0,0);
+
+    AbstractWeatherAPIAccess* m_weatherAPIAccess = nullptr;
 };
 
 #endif // WEATHERDATA_H
