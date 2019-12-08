@@ -40,7 +40,7 @@ Window {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 25
-        spacing: 5
+        spacing: 10
 
         Row {
             id: outdoorTemperatureRow
@@ -60,6 +60,54 @@ Window {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        Item {
+            id: sunEventsRow
+            width: outdoorTemperatureRow.width
+            height: childrenRect.height
+
+            Row {
+                id: sunriseRow
+                anchors.left: parent.left
+                spacing: 10
+
+                Image {
+                    id: sunriseIcon
+                    source: "/weather/sunrise_icon.png"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                SWSText {
+                    id: sunriseTimeText
+                    text: "09:01"
+                    font.pixelSize: 12
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            Row {
+                id: sunsetRow
+                anchors.right: parent.right
+                spacing: 10
+
+                Image {
+                    id: sunsetIcon
+                    source: "/weather/sunset_icon.png"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                SWSText {
+                    id: sunsetTimeText
+                    text: "18:16"
+                    font.pixelSize: 12
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
         }
     }
