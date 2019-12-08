@@ -54,7 +54,7 @@ Window {
 
             SWSText {
                 id: outdoorTemperatureText
-                text: "15°C"
+                text: (weatherData.outdoorTemperature / 100) + "°K"
                 font.pixelSize: 25
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
@@ -81,7 +81,7 @@ Window {
 
                 SWSText {
                     id: sunriseTimeText
-                    text: "09:01"
+                    text: Qt.formatTime(weatherData.sunriseTime)
                     font.pixelSize: 12
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -102,7 +102,7 @@ Window {
 
                 SWSText {
                     id: sunsetTimeText
-                    text: "18:16"
+                    text: Qt.formatTime(weatherData.sunsetTime)
                     font.pixelSize: 12
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -124,7 +124,7 @@ Window {
 
             SWSText {
                 id: humidityText
-                text: "71%"
+                text: weatherData.humidityPercentage + "%"
                 font.pixelSize: 12
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

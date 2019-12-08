@@ -3,7 +3,7 @@
 
 #include <QQmlContext>
 
-#include "core/environmentinitializer.h"
+#include "environmentinitializer.h"
 
 int main(int argc, char *argv[])
 {
