@@ -2,8 +2,8 @@
 #define ENVIRONMENTINITIALIZER_H
 
 #include <QQmlContext>
-#include "datetimesettings.h"
-#include "../weather/weatherdata.h"
+#include "core/datetimesettings.h"
+#include "weather/weatherdata.h"
 
 class EnvironmentInitializer
 {
