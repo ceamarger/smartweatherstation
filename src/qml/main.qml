@@ -40,7 +40,7 @@ Window {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 25
-        spacing: 10
+        spacing: 15
 
         Row {
             id: outdoorTemperatureRow
@@ -64,7 +64,7 @@ Window {
         }
 
         Item {
-            id: sunEventsRow
+            id: sunEventsItem
             width: outdoorTemperatureRow.width
             height: childrenRect.height
 
@@ -108,6 +108,27 @@ Window {
                     verticalAlignment: Text.AlignVCenter
                     anchors.verticalCenter: parent.verticalCenter
                 }
+            }
+        }
+
+        Row {
+            id: humidityRow
+            anchors.left: parent.left
+            spacing: 10
+
+            Image {
+                id: humidityIcon
+                source: "/weather/humidity_icon.png"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            SWSText {
+                id: humidityText
+                text: "71%"
+                font.pixelSize: 12
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }
