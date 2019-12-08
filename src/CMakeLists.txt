@@ -7,7 +7,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-qt5_add_resources(QRC_RESSOURCES qml/qml.qrc)
+qt5_add_resources(
+    QRC_RESSOURCES
+    qml/qml.qrc
+    qml/images/images.qrc)
 
 file(GLOB SOURCE
     *.cpp
