@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/"/>
+    <qresource prefix="/weather">
+        <file alias="cloud.png">weather_icons/cloud.png</file>
+    </qresource>
+</RCC>
