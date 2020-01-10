@@ -16,6 +16,14 @@ Window {
         anchors.fill: parent
 
         Image {
+            id: background
+            source: "/backgrounds/mainBackground.jpg"
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectCrop
+            opacity: 0.3
+        }
+
+        Image {
             id: settings_menu_icon
             source: "/menus/settings_menu_icon.png"
             anchors.top: parent.top
