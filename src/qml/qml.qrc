@@ -1,8 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file alias="MainScreenContent.qml">MainScreenContent.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file alias="SWSText.qml">components/SWSText.qml</file>
+    </qresource>
+    <qresource prefix="/settingsMenus">
+        <file alias="SettingsMenuContainer.qml">settingsMenus/SettingsMenuContainer.qml</file>
     </qresource>
 </RCC>
