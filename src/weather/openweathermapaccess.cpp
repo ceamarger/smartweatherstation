@@ -11,7 +11,6 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(QObject *parent) : AbstractWeatherAPI
 {
     m_openWeatherMapSettings = new QSettings("OWMSettings", QSettings::IniFormat, this);
 
-    qDebug() << m_openWeatherMapSettings->fileName();
     connect(&m_accessManager, &QNetworkAccessManager::finished, this, &OpenWeatherMapAccess::onManagerReplyReceived);
 
     m_refreshtimer.setInterval(std::chrono::milliseconds(RefreshInterval).count());

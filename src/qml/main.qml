@@ -9,6 +9,20 @@ Window {
     height: 480
     title: qsTr("Smart Weather Station")
 
+    Image {
+        id: settings_menu_icon
+        source: "/menus/settings_menu_icon.png"
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 5
+        opacity: 0.5
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: console.log("Not implemented yet")
+        }
+    }
+
     Column {
         id: dateTimeColumn
         anchors.centerIn: parent
