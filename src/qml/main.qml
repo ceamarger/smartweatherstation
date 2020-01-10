@@ -52,7 +52,7 @@ Window {
             id: effectSource
             sourceItem: mainContent
             anchors.fill: parent
-            sourceRect: Qt.rect(blurBackground.x,blurBackground.y,blurBackground.width,blurBackground.height)
+            sourceRect: Qt.rect(blurBackground.x, blurBackground.y, blurBackground.width, blurBackground.height)
         }
 
         FastBlur{
@@ -71,11 +71,11 @@ Window {
 
     Image {
         id: settings_menu_icon
-        source: settingsView.visible ? "/menus/exit_settings_icon.png" : "/menus/settings_menu_icon.png"
+        source: settingsView.visible ? "/menus/exit_settings_icon.png"
+                                     : "/menus/settings_menu_icon.png"
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.margins: 5
-        opacity: 1
 
         MouseArea {
             anchors.fill: parent
