@@ -1,5 +1,7 @@
 import QtQuick 2.12
 
+import "../components"
+
 Item {
     id: root
 
@@ -29,7 +31,35 @@ Item {
         x: -width
         height: parent.height
         width: parent.width / (1.62 * 3) // 1.62 match to the golden ratio (TODO : move this const to a specific constant file if needs to be reused)
-        color: "blue"
+        color: "#1ab5ed"
+
+        SWSText {
+            id: settingsTitle
+            text: "Settings"
+            width: parent.width
+            font.pixelSize: 25
+            font.bold: true
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                margins: 10
+            }
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Rectangle {
+            id: separator
+            color: "black"
+            height: 1
+            anchors {
+                top: settingsTitle.bottom
+                left: parent.left
+                right: parent.right
+                margins: 10
+            }
+        }
     }
 
     NumberAnimation {

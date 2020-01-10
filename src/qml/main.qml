@@ -59,7 +59,7 @@ Window {
             id: blur
             anchors.fill: effectSource
             source: effectSource
-            radius: 30
+            radius: 40
         }
     }
 
@@ -71,7 +71,7 @@ Window {
 
     Image {
         id: settings_menu_icon
-        source: "/menus/settings_menu_icon.png"
+        source: settingsView.visible ? "/menus/exit_settings_icon.png" : "/menus/settings_menu_icon.png"
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.margins: 5

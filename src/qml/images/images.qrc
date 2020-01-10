@@ -8,6 +8,7 @@
     </qresource>
     <qresource prefix="/menus">
         <file alias="settings_menu_icon.png">menu_icons/settings_menu_icon.png</file>
+        <file alias="exit_settings_icon.png">menu_icons/exit_settings_icon.png</file>
     </qresource>
     <qresource prefix="/backgrounds">
         <file alias="mainBackground.jpg">backgrounds/mainBackground.jpg</file>
