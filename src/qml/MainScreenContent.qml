@@ -3,8 +3,10 @@ import QtQuick 2.12
 import "components"
 
 Rectangle {
-    id: mainContent
+    id: root
     anchors.fill: parent
+
+    signal settingsClicked()
 
     Image {
         id: background
@@ -12,6 +14,19 @@ Rectangle {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         opacity: 0.3
+    }
+
+    Image {
+        id: settingsMenuIcon
+        source: "/menus/settings_menu_icon.png"
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 5
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: root.settingsClicked()
+        }
     }
 
     Column {

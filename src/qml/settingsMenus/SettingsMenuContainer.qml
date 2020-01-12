@@ -5,25 +5,46 @@ import "../components"
 Item {
     id: root
 
+    property int animationDuration: 1000 / (1.62*3)
+
+    signal exitClicked()
+
+    property list<Item> menus: [
+        Item {
+            property string title: "Weather API"
+        },
+        Item {
+            property string title: "Localization"
+        }
+    ]
+
     function show() {
         root.visible = true
-        displayLeftSlider()
+        displaySettingsView()
     }
 
     function hide() {
-        hideLeftSlider()
+        hideSettingsView()
     }
 
-    function displayLeftSlider() {
+    function displaySettingsView() {
         hideLeftSliderAnimation.stop()
         if (!displayLeftSliderAnimation.running)
             displayLeftSliderAnimation.start()
+
+        hideExitIconAnimation.stop()
+        if (!displayExitIconAnimation.running)
+            displayExitIconAnimation.start()
     }
 
-    function hideLeftSlider() {
+    function hideSettingsView() {
         displayLeftSliderAnimation.stop()
         if (!hideLeftSliderAnimation.running)
             hideLeftSliderAnimation.start()
+
+        displayExitIconAnimation.stop()
+        if (!hideExitIconAnimation.running)
+            hideExitIconAnimation.start()
     }
 
     Rectangle {
@@ -47,37 +68,128 @@ Item {
             }
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: menusListView.currentIndex = -1
+            }
         }
 
-        Rectangle {
-            id: separator
-            color: "black"
-            height: 1
-            anchors {
-                top: settingsTitle.bottom
-                left: parent.left
-                right: parent.right
-                margins: 10
+        ListView {
+            id: menusListView
+            width: parent.width
+            anchors.top: settingsTitle.bottom
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 10
+            model: root.menus
+
+            currentIndex: -1
+
+            delegate: Rectangle {
+                id: rootDelegate
+                width: parent.width
+                height: 50
+                color: ListView.isCurrentItem ? "#0e6096" : "#1ab5ed"
+
+                Rectangle {
+                    id: separator
+                    color: "black"
+                    height: 1
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        leftMargin: 10
+                        right: parent.right
+                        rightMargin: 10
+                    }
+                }
+
+                SWSText {
+                    text: title
+                    anchors.fill: parent
+                    font.pixelSize: 12
+                    font.bold: rootDelegate.ListView.isCurrentItem
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: menusListView.currentIndex = index
+                }
+            }
+        }
+
+        NumberAnimation {
+            id: displayLeftSliderAnimation
+            target: leftSlider
+            property: "x"
+            to: 0
+            duration: root.animationDuration
+            easing.type: Easing.OutSine
+        }
+
+        NumberAnimation {
+            id: hideLeftSliderAnimation
+            property: "x"
+            target: leftSlider
+            to: -leftSlider.width
+            duration: root.animationDuration
+            easing.type: Easing.OutSine
+
+            onStopped: root.visible = false
+        }
+    }
+
+    Rectangle {
+        id: selectedMenuContent
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: leftSlider.right
+        width: menusListView.currentIndex === -1 ? 0 : parent.width - leftSlider.width
+        color: "#0e6096"
+
+        Behavior on width {
+            NumberAnimation {
+                id: displaySelectedMenuAnimation
+                duration: root.animationDuration
+                easing.type: Easing.OutSine
             }
         }
     }
 
-    NumberAnimation {
-        id: displayLeftSliderAnimation
-        target: leftSlider
-        property: "x"
-        to: 0
-        duration: 250
-        easing.type: Easing.OutSine
-    }
+    Image {
+        id: exitMenuIcon
 
-    NumberAnimation {
-        id: hideLeftSliderAnimation
-        property: "x"
-        target: leftSlider
-        to: -leftSlider.width
-        duration: 250
-        onStopped: root.visible = false
-        easing.type: Easing.OutSine
+        source: "/menus/exit_settings_icon.png"
+        anchors.top: parent.top
+        anchors.margins: 5
+
+        x: root.width
+
+        NumberAnimation {
+            id: displayExitIconAnimation
+            target: exitMenuIcon
+            property: "x"
+            to: root.width - exitMenuIcon.width - exitMenuIcon.anchors.margins
+            duration: root.animationDuration
+            easing.type: Easing.OutSine
+        }
+
+        NumberAnimation {
+            id: hideExitIconAnimation
+            property: "x"
+            target: exitMenuIcon
+            to: root.width
+            duration: root.animationDuration
+            easing.type: Easing.OutSine
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                menusListView.currentIndex = -1
+                root.exitClicked()
+            }
+        }
     }
 }
