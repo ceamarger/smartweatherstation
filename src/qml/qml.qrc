@@ -5,6 +5,7 @@
     </qresource>
     <qresource prefix="/components">
         <file alias="SWSText.qml">components/SWSText.qml</file>
+        <file>SwitchableBlur.qml</file>
     </qresource>
     <qresource prefix="/settingsMenus">
         <file alias="SettingsMenuContainer.qml">settingsMenus/SettingsMenuContainer.qml</file>

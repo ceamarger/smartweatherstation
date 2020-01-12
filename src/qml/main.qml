@@ -1,6 +1,5 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
-import QtGraphicalEffects 1.0
 
 import "components"
 import "settingsMenus"
@@ -13,12 +12,12 @@ Window {
     title: qsTr("Smart Weather Station")
 
     function hideSettings() {
-        unblurBackgroundAnimation.start()
+        blurBackground.unblur()
         settingsView.hide()
     }
 
     function showSettings() {
-        blurBackgroundAnimation.start()
+        blurBackground.blur()
         settingsView.show()
     }
 
@@ -27,40 +26,12 @@ Window {
         anchors.fill: parent
     }
 
-    Item {
+    SwitchableBlur {
         id: blurBackground
+        sourceItem: mainContent
+        animationDuration: 200
+        radius: 40
         anchors.fill: parent
-        opacity: 0
-
-        NumberAnimation {
-            id: blurBackgroundAnimation
-            target: blurBackground
-            property: "opacity"
-            to: 1.0
-            duration: 200
-        }
-
-        NumberAnimation {
-            id: unblurBackgroundAnimation
-            target: blurBackground
-            property: "opacity"
-            to: 0.0
-            duration: 200
-        }
-
-        ShaderEffectSource {
-            id: effectSource
-            sourceItem: mainContent
-            anchors.fill: parent
-            sourceRect: Qt.rect(blurBackground.x, blurBackground.y, blurBackground.width, blurBackground.height)
-        }
-
-        FastBlur{
-            id: blur
-            anchors.fill: effectSource
-            source: effectSource
-            radius: 40
-        }
     }
 
     SettingsMenuContainer {
