@@ -1,11 +1,12 @@
 import QtQuick 2.12
 
+import ".."
 import "../components"
 
 Item {
     id: root
 
-    property int animationDuration: 1000 / (1.62*3)
+    property int animationDuration: 0
 
     signal exitClicked()
 
@@ -51,7 +52,7 @@ Item {
         id: leftSlider
         x: -width
         height: parent.height
-        width: parent.width / (1.62 * 3) // 1.62 match to the golden ratio (TODO : move this const to a specific constant file if needs to be reused)
+        width: parent.width / (Constants.goldenRatio * 3)
         color: "#1ab5ed"
 
         SWSText {

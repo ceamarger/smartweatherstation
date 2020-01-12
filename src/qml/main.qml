@@ -7,9 +7,8 @@ import "settingsMenus"
 Window {
     id: mainAppWindow
     visible: true
-    width: 840
-    height: 480
-    title: qsTr("Smart Weather Station")
+    width: Constants.windowWidth
+    height: Constants.windowHeight
 
     function hideSettings() {
         blurBackground.unblur()
@@ -24,22 +23,24 @@ Window {
     MainScreenContent {
         id: mainContent
         anchors.fill: parent
+
         onSettingsClicked: showSettings()
     }
 
     SwitchableBlur {
         id: blurBackground
-        sourceItem: mainContent
-        animationDuration: 1000 / (1.62*3)
-        radius: 40
         anchors.fill: parent
+        sourceItem: mainContent
+        animationDuration: Constants.displayAnimationDuration
+        radius: Constants.blurRadius
     }
 
     SettingsMenuContainer {
         id: settingsView
         anchors.fill: parent
+        animationDuration: Constants.displayAnimationDuration
         visible: false
+
         onExitClicked: hideSettings()
-        animationDuration: 1000 / (1.62*3)
     }
 }
