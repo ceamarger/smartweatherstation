@@ -11,5 +11,7 @@
     </qresource>
     <qresource prefix="/settingsMenus">
         <file alias="SettingsMenuContainer.qml">settingsMenus/SettingsMenuContainer.qml</file>
+        <file alias="SettingsMenu.qml">settingsMenus/SettingsMenu.qml</file>
+        <file alias="MenuSelector.qml">settingsMenus/MenuSelector.qml</file>
     </qresource>
 </RCC>

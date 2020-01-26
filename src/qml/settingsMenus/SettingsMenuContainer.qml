@@ -10,12 +10,23 @@ Item {
 
     signal exitClicked()
 
-    property list<Item> menus: [
-        Item {
-            property string title: "Weather API"
+    property list<SettingsMenu> menus: [
+        SettingsMenu {
+            title: "Weather API"
+
+            Item {
+                anchors.fill: parent
+
+                SWSText {
+                    text: "Weather API Menu"
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
         },
-        Item {
-            property string title: "Localization"
+        SettingsMenu {
+            title: "Localization"
         }
     ]
 
@@ -29,9 +40,9 @@ Item {
     }
 
     function displaySettingsView() {
-        hideLeftSliderAnimation.stop()
-        if (!displayLeftSliderAnimation.running)
-            displayLeftSliderAnimation.start()
+        hideMenuSelectorAnimation.stop()
+        if (!displayMenuSelectorAnimation.running)
+            displayMenuSelectorAnimation.start()
 
         hideExitIconAnimation.stop()
         if (!displayExitIconAnimation.running)
@@ -39,91 +50,36 @@ Item {
     }
 
     function hideSettingsView() {
-        displayLeftSliderAnimation.stop()
-        if (!hideLeftSliderAnimation.running)
-            hideLeftSliderAnimation.start()
+        displayMenuSelectorAnimation.stop()
+        if (!hideMenuSelectorAnimation.running)
+            hideMenuSelectorAnimation.start()
 
         displayExitIconAnimation.stop()
         if (!hideExitIconAnimation.running)
             hideExitIconAnimation.start()
     }
 
-    Rectangle {
-        id: leftSlider
+    function selectMenu(index) {
+        selectedMenuContent.children.push(root.menus[index])
+        root.menus[index].show()
+    }
+
+    function deselectMenu(index) {
+        root.menus[index].hide()
+        selectedMenuContent.removeChildMenu(root.menus[index])
+    }
+
+    MenuSelector {
+        id: menuSelector
+        menus: root.menus
         x: -width
         height: parent.height
         width: parent.width / (Constants.goldenRatio * 3)
         color: "#1ab5ed"
 
-        SWSText {
-            id: settingsTitle
-            text: "Settings"
-            width: parent.width
-            font.pixelSize: 25
-            font.bold: true
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                margins: 10
-            }
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: menusListView.currentIndex = -1
-            }
-        }
-
-        ListView {
-            id: menusListView
-            width: parent.width
-            anchors.top: settingsTitle.bottom
-            anchors.bottom: parent.bottom
-            anchors.topMargin: 10
-            model: root.menus
-
-            currentIndex: -1
-
-            delegate: Rectangle {
-                id: rootDelegate
-                width: parent.width
-                height: 50
-                color: ListView.isCurrentItem ? "#0e6096" : "#1ab5ed"
-
-                Rectangle {
-                    id: separator
-                    color: "black"
-                    height: 1
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        leftMargin: 10
-                        right: parent.right
-                        rightMargin: 10
-                    }
-                }
-
-                SWSText {
-                    text: title
-                    anchors.fill: parent
-                    font.pixelSize: 12
-                    font.bold: rootDelegate.ListView.isCurrentItem
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: menusListView.currentIndex = index
-                }
-            }
-        }
-
         NumberAnimation {
-            id: displayLeftSliderAnimation
-            target: leftSlider
+            id: displayMenuSelectorAnimation
+            target: menuSelector
             property: "x"
             to: 0
             duration: root.animationDuration
@@ -131,10 +87,10 @@ Item {
         }
 
         NumberAnimation {
-            id: hideLeftSliderAnimation
+            id: hideMenuSelectorAnimation
             property: "x"
-            target: leftSlider
-            to: -leftSlider.width
+            target: menuSelector
+            to: -menuSelector.width
             duration: root.animationDuration
             easing.type: Easing.OutSine
 
@@ -146,8 +102,9 @@ Item {
         id: selectedMenuContent
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.left: leftSlider.right
-        width: menusListView.currentIndex === -1 ? 0 : parent.width - leftSlider.width
+        anchors.left: menuSelector.right
+        width: menuSelector.hasSelectedMenu ? parent.width - menuSelector.width : 0
+        clip: true
         color: "#0e6096"
 
         Behavior on width {
@@ -156,6 +113,15 @@ Item {
                 duration: root.animationDuration
                 easing.type: Easing.OutSine
             }
+        }
+
+        function removeChildMenu(menu) {
+            var childrenToKeep = []
+            for (var i = 0 ; i < children.length ; ++i) {
+                if (children[i] !== menu)
+                    tmpChildren.push(children[i])
+            }
+            children = childrenToKeep
         }
     }
 
@@ -188,7 +154,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                menusListView.currentIndex = -1
+                menuSelector.resetSelection()
                 root.exitClicked()
             }
         }
