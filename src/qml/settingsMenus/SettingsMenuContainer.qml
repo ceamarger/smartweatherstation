@@ -2,6 +2,7 @@ import QtQuick 2.12
 
 import ".."
 import "../components"
+import "weatherAPISettings"
 
 Item {
     id: root
@@ -11,23 +12,7 @@ Item {
     signal exitClicked()
 
     property list<SettingsMenu> menus: [
-        SettingsMenu {
-            title: "Weather API"
-
-            Item {
-                anchors.fill: parent
-
-                SWSText {
-                    text: "Weather API Menu"
-                    anchors.top: parent.top
-                    anchors.topMargin: 10
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-            }
-        },
-        SettingsMenu {
-            title: "Localization"
-        }
+        OpenWeatherMapAPISettings {}
     ]
 
     function show() {

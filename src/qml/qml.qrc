@@ -8,10 +8,12 @@
     <qresource prefix="/components">
         <file alias="SWSText.qml">components/SWSText.qml</file>
         <file>SwitchableBlur.qml</file>
+        <file alias="SWSTextField.qml">components/SWSTextField.qml</file>
     </qresource>
     <qresource prefix="/settingsMenus">
         <file alias="SettingsMenuContainer.qml">settingsMenus/SettingsMenuContainer.qml</file>
         <file alias="SettingsMenu.qml">settingsMenus/SettingsMenu.qml</file>
         <file alias="MenuSelector.qml">settingsMenus/MenuSelector.qml</file>
+        <file alias="weatherAPISettings/OpenWeatherMapAPISettings.qml">settingsMenus/weatherAPISettings/OpenWeatherMapAPISettings.qml</file>
     </qresource>
 </RCC>

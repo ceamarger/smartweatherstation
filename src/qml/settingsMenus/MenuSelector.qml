@@ -16,7 +16,7 @@ Rectangle {
 
     SWSText {
         id: settingsTitle
-        text: "Settings"
+        text: qsTr("Settings")
         width: parent.width
         font.pixelSize: 25
         font.bold: true

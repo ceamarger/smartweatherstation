@@ -1,5 +1,6 @@
 import QtQuick 2.12
 
+import ".."
 import "../../components"
 
 SettingsMenu {
@@ -7,14 +8,26 @@ SettingsMenu {
 
     title: qsTr("Open Weather Map API")
 
-    Item {
+    content: Item {
         anchors.fill: parent
 
-        SWSText {
-            text: root.title
-            anchors.top: parent.top
-            anchors.topMargin: 10
-            anchors.horizontalCenter: parent.horizontalCenter
+        Row {
+            width: parent.width
+            height: 30
+            spacing: 10
+
+            SWSText {
+                id: appIdLabel
+                text: qsTr("App ID :")
+                maxWidth: 150
+                verticalAlignment: Text.AlignVCenter
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            SWSTextField {
+                height: parent.height
+                width: parent.width - appIdLabel.width - parent.spacing
+            }
         }
     }
 }
