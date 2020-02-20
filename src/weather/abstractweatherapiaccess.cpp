@@ -14,12 +14,3 @@ void AbstractWeatherAPIAccess::setSettings(QSettings *settings)
 
     m_settings = settings;
 }
-
-void AbstractWeatherAPIAccess::setData(QJsonDocument data)
-{
-    if (m_data == data)
-        return;
-
-    m_data = data;
-    emit dataUpdated(m_data);
-}

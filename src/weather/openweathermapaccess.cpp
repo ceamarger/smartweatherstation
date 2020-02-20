@@ -55,7 +55,7 @@ void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply *reply)
     finalJsonObject[WeatherDataKeys::Sunset] = document[Sys][Sunset];
     finalJsonDocument.setObject(finalJsonObject);
 
-    setData(finalJsonDocument);
+    emit dataUpdated(finalJsonDocument);
 }
 
 
