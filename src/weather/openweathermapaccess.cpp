@@ -9,7 +9,7 @@ const std::chrono::minutes OpenWeatherMapAccess::RefreshInterval = std::chrono::
 
 OpenWeatherMapAccess::OpenWeatherMapAccess(QObject *parent) : AbstractWeatherAPIAccess(parent)
 {
-    m_openWeatherMapSettings = new QSettings("OWMSettings", QSettings::IniFormat, this);
+    setSettings(new QSettings("OWMSettings", QSettings::IniFormat, this));
 
     connect(&m_accessManager, &QNetworkAccessManager::finished, this, &OpenWeatherMapAccess::onManagerReplyReceived);
 
@@ -24,7 +24,7 @@ void OpenWeatherMapAccess::requestData()
 {
     qDebug() << "Requesting weather data...";
 
-    const QString appId = m_openWeatherMapSettings->value(OpenWeatherMapSettingsParameters::AppId).toString();
+    const QString appId = settings()->value(OpenWeatherMapSettingsParameters::AppId).toString();
 
     QString urlString = "http://api.openweathermap.org/data/2.5/";
     urlString.append("weather?q=Lyon"); // Append City (TODO : manage city changes)

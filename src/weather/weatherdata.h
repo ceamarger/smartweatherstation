@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 
 #include "abstractweatherapiaccess.h"
+
 class WeatherData : public QObject
 {
     Q_OBJECT

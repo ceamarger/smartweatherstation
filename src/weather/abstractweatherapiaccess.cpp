@@ -4,6 +4,17 @@ AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(QObject *parent) : QObject(pa
 {
 }
 
+void AbstractWeatherAPIAccess::setSettings(QSettings *settings)
+{
+    if (m_settings == settings)
+        return;
+
+    if (m_settings)
+        m_settings->deleteLater();
+
+    m_settings = settings;
+}
+
 void AbstractWeatherAPIAccess::setData(QJsonDocument data)
 {
     if (m_data == data)

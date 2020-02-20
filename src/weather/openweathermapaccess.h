@@ -5,7 +5,6 @@
 
 #include <QNetworkAccessManager>
 #include <QTimer>
-#include <QSettings>
 
 class OpenWeatherMapAccess : public AbstractWeatherAPIAccess
 {
@@ -19,7 +18,6 @@ private slots:
 private:
     QNetworkAccessManager m_accessManager;
     QTimer m_refreshtimer;
-    QSettings *m_openWeatherMapSettings = nullptr;
 
     static const std::chrono::minutes RefreshInterval;
 };
