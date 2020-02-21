@@ -1,13 +1,12 @@
 #ifndef ENVIRONMENTINITIALIZER_H
 #define ENVIRONMENTINITIALIZER_H
 
-#include <QQmlContext>
 #include "core/datetimesettings.h"
 #include "weather/weatherdata.h"
 #include "weather/weathersettings.h"
+#include <QQmlContext>
 
-class EnvironmentInitializer
-{
+class EnvironmentInitializer {
 public:
     static EnvironmentInitializer& getInstance();
 
@@ -24,7 +23,7 @@ private:
     void registerQMLTypes();
 
     DateTimeSettings m_dateTimeSettings;
-    WeatherSettings *m_weatherSettings;
+    WeatherSettings* m_weatherSettings;
     WeatherData* m_weatherData = nullptr;
 };
 

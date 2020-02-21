@@ -3,7 +3,8 @@
 #include <QDateTime>
 #include <QLocale>
 
-DateTimeSettings::DateTimeSettings(QObject *parent) : QObject(parent)
+DateTimeSettings::DateTimeSettings(QObject* parent)
+    : QObject(parent)
 {
     connect(&m_clockTimer, &QTimer::timeout, this, &DateTimeSettings::onClockTimerTimeout);
     m_clockTimer.setInterval(ClockInterval);

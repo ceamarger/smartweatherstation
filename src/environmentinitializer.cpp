@@ -2,7 +2,7 @@
 
 #include <QQmlEngine>
 
-EnvironmentInitializer &EnvironmentInitializer::getInstance()
+EnvironmentInitializer& EnvironmentInitializer::getInstance()
 {
     static EnvironmentInitializer instance;
     return instance;
@@ -37,8 +37,6 @@ void EnvironmentInitializer::initializeContext(QQmlContext* context)
 void EnvironmentInitializer::registerQMLTypes()
 {
 
-    qmlRegisterUncreatableType<AbstractWeatherAPIAccess>("sws.weather",
-                                                         1, 0,
-                                                         "AbstractWeatherAPIAccess",
-                                                         "AbstractWeatherAPIAccess cannot be created in QML");
+    qmlRegisterUncreatableType<AbstractWeatherAPIAccess>("sws.weather", 1, 0,
+        "AbstractWeatherAPIAccess", "AbstractWeatherAPIAccess cannot be created in QML");
 }

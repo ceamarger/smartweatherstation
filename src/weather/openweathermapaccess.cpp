@@ -1,16 +1,17 @@
 #include "openweathermapaccess.h"
 #include "weatherdatajsonkeys.h"
 
-#include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkReply>
 
 const std::chrono::minutes OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
 
-OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings *settings, QObject *parent) :
-    AbstractWeatherAPIAccess(settings, parent)
+OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* parent)
+    : AbstractWeatherAPIAccess(settings, parent)
 {
-    connect(&m_accessManager, &QNetworkAccessManager::finished, this, &OpenWeatherMapAccess::onManagerReplyReceived);
+    connect(&m_accessManager, &QNetworkAccessManager::finished, this,
+        &OpenWeatherMapAccess::onManagerReplyReceived);
 
     m_refreshtimer.setInterval(std::chrono::milliseconds(RefreshInterval).count());
     m_refreshtimer.setSingleShot(true);
@@ -22,9 +23,7 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings *settings, QObject *p
 const QString OpenWeatherMapAccess::appId() const
 {
     using namespace OpenWeatherMapSettingsParameters;
-    return settings()
-               ? settings()->value(GroupName, AppId).toString()
-               : "";
+    return settings() ? settings()->value(GroupName, AppId).toString() : "";
 }
 
 void OpenWeatherMapAccess::requestData()
@@ -32,8 +31,10 @@ void OpenWeatherMapAccess::requestData()
     qDebug() << "Requesting weather data...";
 
     QString urlString = "http://api.openweathermap.org/data/2.5/";
-    urlString.append("weather?q=Lyon"); // Append City (TODO : manage city changes)
-    urlString.append("&appid=" + appId()); // should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 but needs settings menu
+    // Append City (TODO : manage city changes)
+    urlString.append("weather?q=Lyon");
+    // AppId should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 but needs settings menu
+    urlString.append("&appid=" + appId());
     QUrl url(urlString);
 
     QNetworkRequest request(url);
@@ -42,7 +43,7 @@ void OpenWeatherMapAccess::requestData()
     m_refreshtimer.start();
 }
 
-void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply *reply)
+void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply* reply)
 {
     using namespace OpenWeatherMapAccessKeys;
 
@@ -50,7 +51,7 @@ void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply *reply)
     QByteArray binaryData = reply->readAll();
     reply->deleteLater();
 
-    QJsonDocument document  = QJsonDocument::fromJson(binaryData);
+    QJsonDocument document = QJsonDocument::fromJson(binaryData);
 
     QJsonDocument finalJsonDocument;
     QJsonObject finalJsonObject;
@@ -62,5 +63,3 @@ void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply *reply)
 
     emit dataUpdated(finalJsonDocument);
 }
-
-
