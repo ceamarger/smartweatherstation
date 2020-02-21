@@ -4,25 +4,28 @@
 #include <QQmlContext>
 #include "core/datetimesettings.h"
 #include "weather/weatherdata.h"
+#include "weather/weathersettings.h"
 
 class EnvironmentInitializer
 {
 public:
     static EnvironmentInitializer& getInstance();
 
-    void initializeContext(QQmlContext* context);
-
-    DateTimeSettings* dateTimeSettings() { return &m_dateTimeSettings; }
-    WeatherData* weatherData() { return &m_weatherData; }
+    void initialize(QQmlContext* context);
 
 private:
     EnvironmentInitializer() = default;
-    ~EnvironmentInitializer() = default;
+    ~EnvironmentInitializer();
     EnvironmentInitializer(const EnvironmentInitializer&) = delete;
     EnvironmentInitializer& operator=(const EnvironmentInitializer&) = delete;
 
+    void initializeEnvironment();
+    void initializeContext(QQmlContext* context);
+    void registerQMLTypes();
+
     DateTimeSettings m_dateTimeSettings;
-    WeatherData m_weatherData;
+    WeatherSettings *m_weatherSettings;
+    WeatherData* m_weatherData = nullptr;
 };
 
 #endif // ENVIRONMENTINITIALIZER_H

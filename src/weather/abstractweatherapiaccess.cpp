@@ -1,14 +1,17 @@
 #include "abstractweatherapiaccess.h"
 
-AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(QObject *parent) : QObject(parent)
+AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(QObject *parent) :
+    AbstractWeatherAPIAccess(nullptr, parent)
 {
 }
 
-void AbstractWeatherAPIAccess::setData(QJsonDocument data)
+AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(WeatherSettings *settings, QObject *parent) :
+    QObject(parent),
+    m_settings(settings)
 {
-    if (m_data == data)
-        return;
+}
 
-    m_data = data;
-    emit dataUpdated(m_data);
+void AbstractWeatherAPIAccess::setSettings(WeatherSettings *settings)
+{
+    m_settings = settings;
 }

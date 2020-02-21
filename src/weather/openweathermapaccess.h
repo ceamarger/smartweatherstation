@@ -5,12 +5,17 @@
 
 #include <QNetworkAccessManager>
 #include <QTimer>
-#include <QSettings>
 
 class OpenWeatherMapAccess : public AbstractWeatherAPIAccess
 {
+    Q_OBJECT
+
+    Q_PROPERTY(QString appId READ appId CONSTANT)
+
 public:
-    explicit OpenWeatherMapAccess(QObject *parent = nullptr);
+    explicit OpenWeatherMapAccess(WeatherSettings *settings, QObject *parent = nullptr);
+
+    const QString appId() const;
 
 private slots:
     void requestData() override;
@@ -19,13 +24,13 @@ private slots:
 private:
     QNetworkAccessManager m_accessManager;
     QTimer m_refreshtimer;
-    QSettings *m_openWeatherMapSettings = nullptr;
 
     static const std::chrono::minutes RefreshInterval;
 };
 
 namespace  OpenWeatherMapSettingsParameters {
 
+static const QString GroupName = "OWMSettings";
 static const QString AppId = "appId";
 
 }

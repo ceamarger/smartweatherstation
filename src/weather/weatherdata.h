@@ -6,6 +6,8 @@
 #include <QJsonDocument>
 
 #include "abstractweatherapiaccess.h"
+#include "weathersettings.h"
+
 class WeatherData : public QObject
 {
     Q_OBJECT
@@ -14,19 +16,21 @@ class WeatherData : public QObject
     Q_PROPERTY(QTime sunriseTime READ sunriseTime NOTIFY sunriseTimeChanged)
     Q_PROPERTY(QTime sunsetTime READ sunsetTime NOTIFY sunsetTimeChanged)
 
+    Q_PROPERTY(AbstractWeatherAPIAccess* api READ api CONSTANT)
+
 public:
-    explicit WeatherData(QObject *parent = nullptr);
+    explicit WeatherData(WeatherSettings* settings, QObject *parent = nullptr);
 
     quint16 outdoorTemperature() const { return m_outdoorTemperature; }
     quint8 humidityPercentage() const { return m_humidityPercentage; }
     QTime sunriseTime() const { return m_sunriseTime; }
     QTime sunsetTime() const { return m_sunsetTime; }
+    AbstractWeatherAPIAccess* api() const { return m_api; }
 
     void setOutdoorTemperature(quint16 outdoorTemperature);
     void setHumidityPercentage(quint8 humidityPercentage);
     void setSunriseTime(QTime sunriseTime);
     void setSunsetTime(QTime sunsetTime);
-
     void setWeatherAPIAccess(AbstractWeatherAPIAccess* weatherAPIAccess);
 
 signals:
@@ -44,7 +48,8 @@ private:
     QTime m_sunriseTime = QTime(0,0);
     QTime m_sunsetTime = QTime(0,0);
 
-    AbstractWeatherAPIAccess* m_weatherAPIAccess = nullptr;
+    WeatherSettings *m_settings = nullptr;
+    AbstractWeatherAPIAccess *m_api = nullptr;
 };
 
 #endif // WEATHERDATA_H

@@ -4,25 +4,29 @@
 #include <QObject>
 #include <QJsonDocument>
 
+#include "weathersettings.h"
+
 class AbstractWeatherAPIAccess : public QObject
 {
     Q_OBJECT
 
 public:
     explicit AbstractWeatherAPIAccess(QObject *parent = nullptr);
+    explicit AbstractWeatherAPIAccess(WeatherSettings *settings, QObject *parent = nullptr);
+    virtual ~AbstractWeatherAPIAccess() {}
 
     virtual void requestData() = 0;
 
-    QJsonDocument data() const { return m_data; }
+    WeatherSettings* settings() const { return m_settings; }
 
 signals:
     void dataUpdated(QJsonDocument data);
 
 protected:
-    void setData(QJsonDocument data);
+    void setSettings(WeatherSettings* settings);
 
 private:
-    QJsonDocument m_data;
+    WeatherSettings *m_settings = nullptr;
 };
 
 #endif // ABSTRACTWEATHERAPIACCESS_H

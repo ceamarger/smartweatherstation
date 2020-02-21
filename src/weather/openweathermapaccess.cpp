@@ -7,11 +7,9 @@
 
 const std::chrono::minutes OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
 
-OpenWeatherMapAccess::OpenWeatherMapAccess(QObject *parent) : AbstractWeatherAPIAccess(parent)
+OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings *settings, QObject *parent) :
+    AbstractWeatherAPIAccess(settings, parent)
 {
-    m_openWeatherMapSettings = new QSettings("OWMSettings", QSettings::IniFormat, this);
-
-    qDebug() << m_openWeatherMapSettings->fileName();
     connect(&m_accessManager, &QNetworkAccessManager::finished, this, &OpenWeatherMapAccess::onManagerReplyReceived);
 
     m_refreshtimer.setInterval(std::chrono::milliseconds(RefreshInterval).count());
@@ -21,15 +19,21 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(QObject *parent) : AbstractWeatherAPI
     requestData();
 }
 
+const QString OpenWeatherMapAccess::appId() const
+{
+    using namespace OpenWeatherMapSettingsParameters;
+    return settings()
+               ? settings()->value(GroupName, AppId).toString()
+               : "";
+}
+
 void OpenWeatherMapAccess::requestData()
 {
     qDebug() << "Requesting weather data...";
 
-    const QString appId = m_openWeatherMapSettings->value(OpenWeatherMapSettingsParameters::AppId).toString();
-
     QString urlString = "http://api.openweathermap.org/data/2.5/";
     urlString.append("weather?q=Lyon"); // Append City (TODO : manage city changes)
-    urlString.append("&appid=" + appId); // should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 but needs settings menu
+    urlString.append("&appid=" + appId()); // should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 but needs settings menu
     QUrl url(urlString);
 
     QNetworkRequest request(url);
@@ -56,7 +60,7 @@ void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply *reply)
     finalJsonObject[WeatherDataKeys::Sunset] = document[Sys][Sunset];
     finalJsonDocument.setObject(finalJsonObject);
 
-    setData(finalJsonDocument);
+    emit dataUpdated(finalJsonDocument);
 }
 
 

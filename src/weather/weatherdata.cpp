@@ -5,10 +5,12 @@
 
 #include <QtDebug>
 
-WeatherData::WeatherData(QObject *parent) :
-    QObject(parent)
+WeatherData::WeatherData(WeatherSettings* settings, QObject *parent) :
+    QObject(parent),
+    m_settings(settings)
 {
-    setWeatherAPIAccess(new OpenWeatherMapAccess);
+    // TODO (camar) : manage api change
+    setWeatherAPIAccess(new OpenWeatherMapAccess(m_settings, this));
 }
 
 void WeatherData::setOutdoorTemperature(quint16 outdoorTemperature)
@@ -49,15 +51,15 @@ void WeatherData::setSunsetTime(QTime sunsetTime)
 
 void WeatherData::setWeatherAPIAccess(AbstractWeatherAPIAccess *weatherAPIAccess)
 {
-    if (m_weatherAPIAccess == weatherAPIAccess)
+    if (m_api == weatherAPIAccess)
         return;
 
-    if (m_weatherAPIAccess)
-        m_weatherAPIAccess->deleteLater();
+    if (m_api)
+        m_api->deleteLater();
 
-    m_weatherAPIAccess = weatherAPIAccess;
+    m_api = weatherAPIAccess;
 
-    connect(m_weatherAPIAccess, &AbstractWeatherAPIAccess::dataUpdated, this, &WeatherData::parseReceivedJsonData);
+    connect(m_api, &AbstractWeatherAPIAccess::dataUpdated, this, &WeatherData::parseReceivedJsonData);
 }
 
 void WeatherData::parseReceivedJsonData(QJsonDocument jsonData)
