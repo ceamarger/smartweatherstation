@@ -27,6 +27,7 @@ SettingsMenu {
             SWSTextField {
                 height: parent.height
                 width: parent.width - appIdLabel.width - parent.spacing
+                text: weatherData.api.appId
             }
         }
     }

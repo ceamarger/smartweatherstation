@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    EnvironmentInitializer::getInstance().initializeContext(engine.rootContext());
+    EnvironmentInitializer::getInstance().initialize(engine.rootContext());
 
     engine.load(url);
 

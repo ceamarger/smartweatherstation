@@ -1,16 +1,17 @@
 #include "abstractweatherapiaccess.h"
 
-AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(QObject *parent) : QObject(parent)
+AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(QObject *parent) :
+    AbstractWeatherAPIAccess(nullptr, parent)
 {
 }
 
-void AbstractWeatherAPIAccess::setSettings(QSettings *settings)
+AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(WeatherSettings *settings, QObject *parent) :
+    QObject(parent),
+    m_settings(settings)
 {
-    if (m_settings == settings)
-        return;
+}
 
-    if (m_settings)
-        m_settings->deleteLater();
-
+void AbstractWeatherAPIAccess::setSettings(WeatherSettings *settings)
+{
     m_settings = settings;
 }
