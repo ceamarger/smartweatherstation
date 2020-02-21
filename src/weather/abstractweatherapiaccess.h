@@ -26,9 +26,6 @@ public:
 signals:
     void dataUpdated(QJsonDocument data);
 
-protected:
-    void setSettings(WeatherSettings* settings);
-
 private:
     WeatherSettings* m_settings = nullptr;
 };

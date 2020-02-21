@@ -45,7 +45,6 @@ public:
     void setHumidityPercentage(quint8 humidityPercentage);
     void setSunriseTime(QTime sunriseTime);
     void setSunsetTime(QTime sunsetTime);
-    void setWeatherAPIAccess(AbstractWeatherAPIAccess* weatherAPIAccess);
 
 signals:
     void outdoorTemperatureChanged();
@@ -57,6 +56,8 @@ private slots:
     void parseReceivedJsonData(QJsonDocument jsonData);
 
 private:
+    void setAPI(AbstractWeatherAPIAccess* api);
+
     quint16 m_outdoorTemperature = 0; // centiKelvin (°K * 100)
     quint8 m_humidityPercentage = 0;
     QTime m_sunriseTime = QTime(0, 0);

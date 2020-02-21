@@ -10,7 +10,7 @@ WeatherData::WeatherData(WeatherSettings* settings, QObject* parent)
     , m_settings(settings)
 {
     // TODO (camar) : manage api change
-    setWeatherAPIAccess(new OpenWeatherMapAccess(m_settings, this));
+    setAPI(new OpenWeatherMapAccess(m_settings, this));
 }
 
 void WeatherData::setOutdoorTemperature(quint16 outdoorTemperature)
@@ -49,15 +49,15 @@ void WeatherData::setSunsetTime(QTime sunsetTime)
     emit sunsetTimeChanged();
 }
 
-void WeatherData::setWeatherAPIAccess(AbstractWeatherAPIAccess* weatherAPIAccess)
+void WeatherData::setAPI(AbstractWeatherAPIAccess* api)
 {
-    if (m_api == weatherAPIAccess)
+    if (m_api == api)
         return;
 
     if (m_api)
         m_api->deleteLater();
 
-    m_api = weatherAPIAccess;
+    m_api = api;
 
     connect(
         m_api, &AbstractWeatherAPIAccess::dataUpdated, this, &WeatherData::parseReceivedJsonData);

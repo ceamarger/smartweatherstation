@@ -22,7 +22,7 @@ private slots:
 
 private:
     QNetworkAccessManager m_accessManager;
-    QTimer m_refreshtimer;
+    QTimer m_refreshTimer;
 
     static const std::chrono::minutes RefreshInterval;
 };

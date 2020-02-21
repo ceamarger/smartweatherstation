@@ -10,8 +10,3 @@ AbstractWeatherAPIAccess::AbstractWeatherAPIAccess(WeatherSettings* settings, QO
     , m_settings(settings)
 {
 }
-
-void AbstractWeatherAPIAccess::setSettings(WeatherSettings* settings)
-{
-    m_settings = settings;
-}

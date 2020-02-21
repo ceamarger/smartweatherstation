@@ -20,7 +20,7 @@ public:
 signals:
     void dateTimeChanged();
 
-public slots:
+private slots:
     void onClockTimerTimeout();
 
 private:

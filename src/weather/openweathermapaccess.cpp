@@ -13,9 +13,9 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* p
     connect(&m_accessManager, &QNetworkAccessManager::finished, this,
         &OpenWeatherMapAccess::onManagerReplyReceived);
 
-    m_refreshtimer.setInterval(std::chrono::milliseconds(RefreshInterval).count());
-    m_refreshtimer.setSingleShot(true);
-    connect(&m_refreshtimer, &QTimer::timeout, this, &OpenWeatherMapAccess::requestData);
+    m_refreshTimer.setInterval(std::chrono::milliseconds(RefreshInterval).count());
+    m_refreshTimer.setSingleShot(true);
+    connect(&m_refreshTimer, &QTimer::timeout, this, &OpenWeatherMapAccess::requestData);
 
     requestData();
 }
@@ -40,7 +40,7 @@ void OpenWeatherMapAccess::requestData()
     QNetworkRequest request(url);
     m_accessManager.get(request);
 
-    m_refreshtimer.start();
+    m_refreshTimer.start();
 }
 
 void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply* reply)
