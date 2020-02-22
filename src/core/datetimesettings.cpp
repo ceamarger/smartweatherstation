@@ -21,7 +21,4 @@ QString DateTimeSettings::currentTime()
     return QTime::currentTime().toString(Qt::DateFormat::SystemLocaleShortDate);
 }
 
-void DateTimeSettings::onClockTimerTimeout()
-{
-    emit dateTimeChanged();
-}
+void DateTimeSettings::onClockTimerTimeout() { emit dateTimeChanged(); }

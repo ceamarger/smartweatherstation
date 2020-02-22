@@ -20,26 +20,11 @@ class WeatherData : public QObject {
 public:
     explicit WeatherData(WeatherSettings* settings, QObject* parent = nullptr);
 
-    quint16 outdoorTemperature() const
-    {
-        return m_outdoorTemperature;
-    }
-    quint8 humidityPercentage() const
-    {
-        return m_humidityPercentage;
-    }
-    QTime sunriseTime() const
-    {
-        return m_sunriseTime;
-    }
-    QTime sunsetTime() const
-    {
-        return m_sunsetTime;
-    }
-    AbstractWeatherAPIAccess* api() const
-    {
-        return m_api;
-    }
+    quint16 outdoorTemperature() const { return m_outdoorTemperature; }
+    quint8 humidityPercentage() const { return m_humidityPercentage; }
+    QTime sunriseTime() const { return m_sunriseTime; }
+    QTime sunsetTime() const { return m_sunsetTime; }
+    AbstractWeatherAPIAccess* api() const { return m_api; }
 
     void setOutdoorTemperature(quint16 outdoorTemperature);
     void setHumidityPercentage(quint8 humidityPercentage);

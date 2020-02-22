@@ -16,8 +16,8 @@ public:
     explicit Weather(QObject* parent = nullptr);
     Weather(const QString& settingsFileName, QObject* parent = nullptr);
 
-    WeatherSettings* settings() const;
-    WeatherData* data() const;
+    WeatherSettings* settings() const { return m_settings; }
+    WeatherData* data() const { return m_data; }
 
 private:
     void registerQMLTypes();

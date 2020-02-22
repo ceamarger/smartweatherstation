@@ -12,16 +12,11 @@ class AbstractWeatherAPIAccess : public QObject {
 public:
     explicit AbstractWeatherAPIAccess(QObject* parent = nullptr);
     explicit AbstractWeatherAPIAccess(WeatherSettings* settings, QObject* parent = nullptr);
-    virtual ~AbstractWeatherAPIAccess()
-    {
-    }
+    virtual ~AbstractWeatherAPIAccess() {}
 
     virtual void requestData() = 0;
 
-    WeatherSettings* settings() const
-    {
-        return m_settings;
-    }
+    WeatherSettings* settings() const { return m_settings; }
 
 signals:
     void dataUpdated(QJsonDocument data);

@@ -8,10 +8,7 @@ EnvironmentInitializer& EnvironmentInitializer::getInstance()
     return instance;
 }
 
-void EnvironmentInitializer::initialize(QQmlContext* context)
-{
-    initializeContext(context);
-}
+void EnvironmentInitializer::initialize(QQmlContext* context) { initializeContext(context); }
 
 void EnvironmentInitializer::initializeContext(QQmlContext* context)
 {

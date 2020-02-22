@@ -27,13 +27,3 @@ void Weather::registerQMLTypes()
     qmlRegisterUncreatableType<WeatherData>(
         "sws.weather", 1, 0, "WeatherData", "WeatherData cannot be created in QML");
 }
-
-WeatherSettings* Weather::settings() const
-{
-    return m_settings;
-}
-
-WeatherData* Weather::data() const
-{
-    return m_data;
-}
