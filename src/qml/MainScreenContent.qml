@@ -8,6 +8,8 @@ Rectangle {
 
     signal settingsClicked()
 
+    readonly property var weatherData: weather.data
+
     Image {
         id: background
         source: "/backgrounds/mainBackground.jpg"

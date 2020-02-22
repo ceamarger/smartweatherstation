@@ -17,7 +17,7 @@ public:
 signals:
 
 private:
-    QSettings* m_settings;
+    QSettings* m_settings = nullptr;
 };
 
 #endif // WEATHERSETTINGS_H

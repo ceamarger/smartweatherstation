@@ -2,8 +2,8 @@
 
 WeatherSettings::WeatherSettings(const QString& filename, QObject* parent)
     : QObject(parent)
+    , m_settings(new QSettings(filename, QSettings::IniFormat, this))
 {
-    m_settings = new QSettings(filename, QSettings::IniFormat, this);
 }
 
 QVariant WeatherSettings::value(
