@@ -7,22 +7,47 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(PROJECT_EXPORT_DIR ${PROJECT_SOURCE_DIR}/export)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_EXPORT_DIR}/lib)
+
+# -------------- Core Lib
+file(GLOB CORE_SOURCE
+    core/*.cpp)
+
+file(GLOB CORE_HEADER
+    core/*.h)
+
+add_library(SWSCoreLib SHARED ${CORE_HEADER} ${CORE_SOURCE} )
+target_link_libraries(SWSCoreLib
+    PRIVATE
+    Qt5::Core)
+
+# -------------- Weather Lib
+file(GLOB WEATHER_SOURCE
+    weather/*.cpp)
+
+file(GLOB WEATHER_HEADER
+    weather/*.h)
+
+add_library(SWSWeatherLib SHARED ${WEATHER_HEADER} ${WEATHER_SOURCE} )
+target_link_libraries(SWSWeatherLib
+    PRIVATE
+    Qt5::Core
+    Qt5::Quick)
+
+# -------------- Application executable
 qt5_add_resources(
     QRC_RESSOURCES
     qml/qml.qrc
     qml/images/images.qrc)
 
-file(GLOB SOURCE
-    *.cpp
-    core/*.cpp
-    weather/*.cpp)
+file(GLOB APP_SOURCE
+    *.cpp)
 
-file(GLOB HEADER
-    *.h
-    core/*.h
-    weather/*.h)
+file(GLOB APP_HEADER
+    *.h)
 
-add_executable(${PROJECT_NAME} ${HEADER} ${SOURCE} ${QRC_RESSOURCES})
+add_executable(${PROJECT_NAME} ${APP_HEADER} ${APP_SOURCE} ${QRC_RESSOURCES})
 
 target_compile_definitions(
     ${PROJECT_NAME}
@@ -32,5 +57,7 @@ target_compile_definitions(
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE
+    SWSCoreLib
+    SWSWeatherLib
     Qt5::Core
     Qt5::Quick)
