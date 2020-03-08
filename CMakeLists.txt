@@ -5,4 +5,3 @@ project(smartweatherstation LANGUAGES CXX)
 find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
 add_subdirectory(src)
-add_subdirectory(tests)

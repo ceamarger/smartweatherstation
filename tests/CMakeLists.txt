@@ -14,17 +14,22 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_testing()
 
-set(SOURCE_APP_DIRECTORY ../src)
+set(APP_DIR ..)
+set(APP_LIBRARIES_DIR ${APP_DIR}/export/lib)
+set(SOURCE_APP_DIR ${APP_DIR}/src)
+find_library(SWSLibraries NAMES SWSWeatherLib PATHS ${APP_LIBRARIES_DIR})
+
+message("---------------- ${SWSLibraries}")
 file(GLOB SOURCE
-    ${SOURCE_APP_DIRECTORY}/weather/*.cpp)
+    ${SOURCE_APP_DIR}/weather/*.cpp)
 
 file(GLOB HEADER
-    ${SOURCE_APP_DIRECTORY}/weather/*.h)
+    ${SOURCE_APP_DIR}/weather/*.h)
 
-add_executable(smartweatherstation_tests tst_weathersettings.cpp)
-add_test(smartweatherstation_tests COMMAND smartweatherstation_tests)
+add_executable(test_weatherSettings tst_weathersettings.cpp)
+add_test(${PROJECT_NAME} COMMAND test_weatherSettings test_openWeatherMapAPI)
 
-target_link_libraries(smartweatherstation_tests
+target_link_libraries(test_weatherSettings
     PRIVATE
-    SWSWeatherLib
+    ${SWSLibraries}
     Qt5::Test)
