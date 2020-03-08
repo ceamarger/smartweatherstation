@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 
-const std::chrono::minutes OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
+std::chrono::seconds OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
 
 OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* parent)
     : AbstractWeatherAPIAccess(settings, parent)
@@ -13,7 +13,8 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* p
     connect(&m_accessManager, &QNetworkAccessManager::finished, this,
         &OpenWeatherMapAccess::onManagerReplyReceived);
 
-    m_refreshTimer.setInterval(std::chrono::milliseconds(RefreshInterval).count());
+    m_refreshTimer.setInterval(
+        static_cast<int>(std::chrono::milliseconds(RefreshInterval).count()));
     m_refreshTimer.setSingleShot(true);
     connect(&m_refreshTimer, &QTimer::timeout, this, &OpenWeatherMapAccess::requestData);
 
@@ -62,4 +63,11 @@ void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply* reply)
     finalJsonDocument.setObject(finalJsonObject);
 
     emit dataUpdated(finalJsonDocument);
+}
+
+void OpenWeatherMapAccess::setRefreshInterval(std::chrono::seconds seconds)
+{
+    RefreshInterval = seconds;
+    m_refreshTimer.setInterval(
+        static_cast<int>(std::chrono::milliseconds(RefreshInterval).count()));
 }

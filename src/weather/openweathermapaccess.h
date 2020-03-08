@@ -13,6 +13,9 @@ class OpenWeatherMapAccess : public AbstractWeatherAPIAccess {
 
 public:
     explicit OpenWeatherMapAccess(WeatherSettings* settings, QObject* parent = nullptr);
+    ~OpenWeatherMapAccess() override {}
+
+    void setRefreshInterval(std::chrono::seconds seconds);
 
     const QString appId() const;
 
@@ -24,7 +27,7 @@ private:
     QNetworkAccessManager m_accessManager;
     QTimer m_refreshTimer;
 
-    static const std::chrono::minutes RefreshInterval;
+    static std::chrono::seconds RefreshInterval;
 };
 
 namespace OpenWeatherMapSettingsParameters {
