@@ -14,16 +14,21 @@ private slots:
     void checkSettingsGetter();
 
 private:
-    WeatherSettings settings;
+    WeatherSettings* mock_settings;
 };
 
 weathersettings_test::weathersettings_test()
-    : settings("test_weathersettings")
 {
-    settings.setValue("group1", "key1", 1);
-    settings.setValue("group2", "key1", 0.5);
-    settings.setValue("group2", "key2", "stringValueG2K2");
-    settings.setValue("group2", "key3", false);
+    QTemporaryFile tmpFile;
+    tmpFile.open();
+
+    qDebug() << tmpFile.fileName();
+    mock_settings = new WeatherSettings(tmpFile.fileName(), this);
+
+    mock_settings->setValue("group1", "key1", 1);
+    mock_settings->setValue("group2", "key1", 0.5);
+    mock_settings->setValue("group2", "key2", "stringValueG2K2");
+    mock_settings->setValue("group2", "key3", false);
 }
 
 weathersettings_test::~weathersettings_test() {}
@@ -58,7 +63,7 @@ void weathersettings_test::checkSettingsGetter()
     QFETCH(QString, key);
     QFETCH(QVariant, value);
 
-    QCOMPARE(settings.value(group, key), value);
+    QCOMPARE(mock_settings->value(group, key), value);
 }
 
 QTEST_APPLESS_MAIN(weathersettings_test)
