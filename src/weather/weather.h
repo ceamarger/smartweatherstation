@@ -6,6 +6,11 @@
 #include "weatherdata.h"
 #include "weathersettings.h"
 
+/*!
+ * \brief The Weather weather element interactivity
+ *
+ * This also register classes needed by QML.
+ */
 class Weather : public QObject {
     Q_OBJECT
 

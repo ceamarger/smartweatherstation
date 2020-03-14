@@ -8,6 +8,11 @@
 #include "abstractweatherapiaccess.h"
 #include "weathersettings.h"
 
+/*!
+ * \brief This class contains weather data.
+ *
+ * This also is an accessor to the API. But this should change.
+ */
 class WeatherData : public QObject {
     Q_OBJECT
     Q_PROPERTY(quint16 outdoorTemperature READ outdoorTemperature NOTIFY outdoorTemperatureChanged)

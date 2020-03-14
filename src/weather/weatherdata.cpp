@@ -5,6 +5,11 @@
 
 #include <QtDebug>
 
+/*!
+ * \brief Constructs a WeatherData object with the given \a parent and \a settings
+ * \param settings the settings needed by the object
+ * \param parent the parent of the object
+ */
 WeatherData::WeatherData(WeatherSettings* settings, QObject* parent)
     : QObject(parent)
     , m_settings(settings)

@@ -6,6 +6,9 @@
 #include <QNetworkAccessManager>
 #include <QTimer>
 
+/*!
+ * \brief This class is used to access OpenWeatherMap API and request jsonData to it
+ */
 class OpenWeatherMapAccess : public AbstractWeatherAPIAccess {
     Q_OBJECT
 
