@@ -6,11 +6,22 @@
 
 const QString Weather::WeatherSettingsFileName = "WeatherSettings";
 
+/*!
+ * \brief Constructs a Weather object with the given \a parent and default settings file
+ * \param parent parent of the object
+ */
 Weather::Weather(QObject* parent)
     : Weather(WeatherSettingsFileName, parent)
 {
 }
 
+/*!
+ * \brief Constructs a Weather object with the given \a parent and settings file with the given \a
+ * settingsFileName
+ *
+ * \param settingsFileName name of the settings file
+ * \param parent parent of the object
+ */
 Weather::Weather(const QString& settingsFileName, QObject* parent)
     : QObject(parent)
     , m_settings(new WeatherSettings(settingsFileName, this))
