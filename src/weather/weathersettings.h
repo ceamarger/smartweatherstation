@@ -4,6 +4,13 @@
 #include <QObject>
 #include <QSettings>
 
+/*!
+ * \class WeatherSettings
+ * \brief A class that can be used to store settings in a file.
+ *
+ * WeatherSettings class can be used to store settings in a file.
+ * The file is formated as an INI file.
+ */
 class WeatherSettings : public QObject {
     Q_OBJECT
 
