@@ -7,6 +7,15 @@
 
 std::chrono::seconds OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
 
+/*!
+ * \brief Create an OpenWeatherMapAccess object with the given \a parent and \a settings
+ * \param settings The settings object that contains open weather map api settings (appId, etc...)
+ * \param parent Parent of the object
+ *
+ * This constructor immediately request new data to the API.
+ * periodically.
+ *
+ */
 OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* parent)
     : AbstractWeatherAPIAccess(settings, parent)
 {
@@ -21,12 +30,21 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* p
     requestData();
 }
 
+/*!
+ * \brief Get the OpenWeatherMap application Id
+ * \return the appId used to access the OpenWeatherMap API
+ */
 const QString OpenWeatherMapAccess::appId() const
 {
     using namespace OpenWeatherMapSettingsParameters;
     return settings() ? settings()->value(GroupName, AppId).toString() : "";
 }
 
+/*!
+ * \brief Request data to the OpenWeatherMap API
+ *
+ * This function is called periodically after its first call.
+ */
 void OpenWeatherMapAccess::requestData()
 {
     qDebug() << "Requesting weather data...";
@@ -65,6 +83,10 @@ void OpenWeatherMapAccess::onManagerReplyReceived(QNetworkReply* reply)
     emit dataUpdated(finalJsonDocument);
 }
 
+/*!
+ * \brief Set the interval between two request
+ * \param seconds number of seconds between two requests
+ */
 void OpenWeatherMapAccess::setRefreshInterval(std::chrono::seconds seconds)
 {
     RefreshInterval = seconds;
