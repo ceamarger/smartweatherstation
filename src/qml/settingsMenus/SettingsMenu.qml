@@ -11,6 +11,7 @@ Item {
     property alias content : menuLoader.sourceComponent
 
     function show() {
+        console.log("Entering menu : " + root.title)
         menuLoader.active = true
     }
 

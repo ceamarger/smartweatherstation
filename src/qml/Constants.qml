@@ -10,5 +10,5 @@ QtObject {
 
     readonly property real goldenRatio: 1.62
     readonly property int blurRadius: 40
-    readonly property int displayAnimationDuration: 1000 / (1.62 * 3)
+    readonly property int displayAnimationDuration: 1000 / (goldenRatio * 3)
 }
