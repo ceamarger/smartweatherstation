@@ -4,6 +4,7 @@
         <file alias="MainScreenContent.qml">MainScreenContent.qml</file>
         <file>qmldir</file>
         <file alias="Constants.qml">Constants.qml</file>
+        <file alias="Colors.qml">Colors.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file alias="SWSText.qml">components/SWSText.qml</file>

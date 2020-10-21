@@ -1,5 +1,6 @@
 import QtQuick 2.12
 
+import ".."
 import "../components"
 
 Rectangle {
@@ -53,7 +54,7 @@ Rectangle {
 
             width: parent.width
             height: 50
-            color: isCurrentItem ? "#0e6096" : "#1ab5ed"
+            color: isCurrentItem ? Colors.darkBlue1 : Colors.lightBlue1
 
             onIsCurrentItemChanged: {
                 if (!isCurrentItem)

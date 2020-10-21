@@ -60,7 +60,7 @@ Item {
         x: -width
         height: parent.height
         width: parent.width / (Constants.goldenRatio * 3)
-        color: "#1ab5ed"
+        color: Colors.lightBlue1
 
         NumberAnimation {
             id: displayMenuSelectorAnimation
@@ -90,7 +90,7 @@ Item {
         anchors.left: menuSelector.right
         width: menuSelector.hasSelectedMenu ? parent.width - menuSelector.width : 0
         clip: true
-        color: "#0e6096"
+        color: Colors.darkBlue1
 
         Behavior on width {
             NumberAnimation {
