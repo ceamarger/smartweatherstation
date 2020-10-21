@@ -1,5 +1,6 @@
 import QtQuick 2.0
 
+import "../.."
 import "../../components"
 
 Item {
@@ -48,6 +49,13 @@ Item {
             width: outdoorTemperatureRow.width
             height: childrenRect.height
 
+            opacity: visible ? 1.0 : 0.0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Constants.displayAnimationDuration
+                }
+            }
+
             Row {
                 id: sunriseRow
                 anchors.left: parent.left
@@ -95,6 +103,13 @@ Item {
             id: humidityRow
             anchors.left: parent.left
             spacing: 10
+
+            opacity: visible ? 1.0 : 0.0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Constants.displayAnimationDuration
+                }
+            }
 
             Image {
                 id: humidityIcon
