@@ -10,6 +10,53 @@ Rectangle {
 
     readonly property var weatherData: weather.data
 
+    Component.onCompleted: root.state = __private.simplifiedViewState
+
+    QtObject {
+        id: __private
+
+        readonly property string simplifiedViewState: "simplifiedView"
+        readonly property string completeViewState: "completeView"
+
+        readonly property bool isCompleteView: root.state === completeViewState
+
+        readonly property int defaultBorderMargin: 25
+    }
+
+    states: [
+        State {
+            name: __private.simplifiedViewState
+            AnchorChanges {
+                target: animationInvisibleItem
+                anchors.top: undefined; anchors.verticalCenter: root.verticalCenter
+            }
+        },
+        State {
+            name: __private.completeViewState
+            AnchorChanges {
+                target: animationInvisibleItem
+                anchors.top: root.top; anchors.verticalCenter: undefined
+            }
+        }
+    ]
+
+    transitions: Transition {
+        AnchorAnimation {
+            duration: Constants.displayAnimationDuration
+            easing.type: Easing.OutSine
+        }
+    }
+
+    function switchState() {
+        switch (root.state) {
+        case __private.simplifiedViewState:
+            root.state = __private.completeViewState
+            break
+        default:
+            root.state = __private.simplifiedViewState
+        }
+    }
+
     Image {
         id: background
         source: "/backgrounds/mainBackground.jpg"
@@ -18,23 +65,12 @@ Rectangle {
         opacity: 0.3
     }
 
-    Image {
-        id: settingsMenuIcon
-        source: "/menus/settings_menu_icon.png"
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.margins: 5
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: root.settingsClicked()
-        }
-    }
-
+    // Main Content
     Column {
         id: dateTimeColumn
-        anchors.centerIn: parent
-        spacing: 5
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: animationInvisibleItem.verticalCenter
+        spacing: 15
 
         SWSText {
             id: timeText
@@ -59,9 +95,9 @@ Rectangle {
 
     Column {
         id: outdoorWeatherColumn
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: animationInvisibleItem.top
         anchors.left: parent.left
-        anchors.leftMargin: 25
+        anchors.leftMargin: __private.defaultBorderMargin
         spacing: 15
 
         Row {
@@ -90,6 +126,8 @@ Rectangle {
             width: outdoorTemperatureRow.width
             height: childrenRect.height
 
+            visible: __private.isCompleteView
+
             Row {
                 id: sunriseRow
                 anchors.left: parent.left
@@ -116,6 +154,8 @@ Rectangle {
                 anchors.right: parent.right
                 spacing: 10
 
+                visible: __private.isCompleteView
+
                 Image {
                     id: sunsetIcon
                     source: "/weather/sunset_icon.png"
@@ -138,6 +178,8 @@ Rectangle {
             anchors.left: parent.left
             spacing: 10
 
+            visible: __private.isCompleteView
+
             Image {
                 id: humidityIcon
                 source: "/weather/humidity_icon.png"
@@ -153,5 +195,36 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: root.switchState()
+    }
+
+    Image {
+        id: settingsMenuIcon
+        source: "/menus/settings_menu_icon.png"
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.margins: 5
+
+        visible: __private.isCompleteView
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: root.settingsClicked()
+        }
+    }
+
+    /* Invisible item used to simplify the transition anchors animation
+     * between simplified and complete view
+     */
+    Item {
+        id: animationInvisibleItem
+        height: outdoorTemperatureRow.height
+        anchors.horizontalCenter: root.horizontalCenter
+        anchors.verticalCenter: root.verticalCenter
+        anchors.margins: __private.defaultBorderMargin
     }
 }
