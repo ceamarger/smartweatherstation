@@ -23,6 +23,8 @@ Item {
             unblurAnimation.start()
     }
 
+    readonly property bool isActive: opacity > 0
+
     NumberAnimation {
         id: blurAnimation
         target: root
@@ -50,5 +52,11 @@ Item {
         anchors.fill: effectSource
         source: effectSource
         radius: 0
+    }
+
+    // MouseArea used to block inputs behind the blur
+    MouseArea {
+        anchors.fill: parent
+        enabled: root.isActive
     }
 }

@@ -1,67 +1,26 @@
-import QtQuick 2.12
+import QtQuick 2.0
 
-import "components"
+import "../.."
+import "../../components"
 
-Rectangle {
+Item {
     id: root
-    anchors.fill: parent
+    width: childrenRect.width
+    height: childrenRect.height
 
-    signal settingsClicked()
+    readonly property int minimalHeight: outdoorTemperatureRow.height
 
-    readonly property var weatherData: weather.data
+    property alias sunEventsInfoVisible: sunEventsItem.visible
+    property alias humidityInfoVIsible: humidityRow.visible
 
-    Image {
-        id: background
-        source: "/backgrounds/mainBackground.jpg"
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        opacity: 0.3
-    }
+    QtObject {
+        id: __private
 
-    Image {
-        id: settingsMenuIcon
-        source: "/menus/settings_menu_icon.png"
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.margins: 5
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: root.settingsClicked()
-        }
-    }
-
-    Column {
-        id: dateTimeColumn
-        anchors.centerIn: parent
-        spacing: 5
-
-        SWSText {
-            id: timeText
-            text: dateTimeSettings.currentTime
-            font.pixelSize: 25
-            font.bold: true
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-
-        SWSText {
-            id: dateText
-            text: dateTimeSettings.currentDate
-            font.pixelSize: 15
-            font.capitalization: Font.Capitalize
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+        readonly property var weatherData: weather.data
     }
 
     Column {
         id: outdoorWeatherColumn
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: 25
         spacing: 15
 
         Row {
@@ -76,7 +35,7 @@ Rectangle {
 
             SWSText {
                 id: outdoorTemperatureText
-                text: (weatherData.outdoorTemperature / 100) + "°K"
+                text: (__private.weatherData.outdoorTemperature / 100) + "°K"
                 font.pixelSize: 25
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
@@ -89,6 +48,13 @@ Rectangle {
             id: sunEventsItem
             width: outdoorTemperatureRow.width
             height: childrenRect.height
+
+            opacity: visible ? 1.0 : 0.0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Constants.displayAnimationDuration
+                }
+            }
 
             Row {
                 id: sunriseRow
@@ -103,7 +69,7 @@ Rectangle {
 
                 SWSText {
                     id: sunriseTimeText
-                    text: Qt.formatTime(weatherData.sunriseTime)
+                    text: Qt.formatTime(__private.weatherData.sunriseTime)
                     font.pixelSize: 12
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -124,7 +90,7 @@ Rectangle {
 
                 SWSText {
                     id: sunsetTimeText
-                    text: Qt.formatTime(weatherData.sunsetTime)
+                    text: Qt.formatTime(__private.weatherData.sunsetTime)
                     font.pixelSize: 12
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -138,6 +104,13 @@ Rectangle {
             anchors.left: parent.left
             spacing: 10
 
+            opacity: visible ? 1.0 : 0.0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Constants.displayAnimationDuration
+                }
+            }
+
             Image {
                 id: humidityIcon
                 source: "/weather/humidity_icon.png"
@@ -146,7 +119,7 @@ Rectangle {
 
             SWSText {
                 id: humidityText
-                text: weatherData.humidityPercentage + "%"
+                text: __private.weatherData.humidityPercentage + "%"
                 font.pixelSize: 12
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

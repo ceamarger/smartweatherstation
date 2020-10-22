@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file alias="MainScreenContent.qml">MainScreenContent.qml</file>
         <file>qmldir</file>
         <file alias="Constants.qml">Constants.qml</file>
         <file alias="Colors.qml">Colors.qml</file>
@@ -16,5 +15,10 @@
         <file alias="SettingsMenu.qml">settingsMenus/SettingsMenu.qml</file>
         <file alias="MenuSelector.qml">settingsMenus/MenuSelector.qml</file>
         <file alias="weatherAPISettings/OpenWeatherMapAPISettings.qml">settingsMenus/weatherAPISettings/OpenWeatherMapAPISettings.qml</file>
+    </qresource>
+    <qresource prefix="/weatherView">
+        <file alias="MainScreenContent.qml">weatherView/MainScreenContent.qml</file>
+        <file alias="blocks/DatetimeBlock.qml">weatherView/blocks/DatetimeBlock.qml</file>
+        <file alias="blocks/OutdoorWeatherBlock.qml">weatherView/blocks/OutdoorWeatherBlock.qml</file>
     </qresource>
 </RCC>
