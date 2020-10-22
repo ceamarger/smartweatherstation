@@ -54,6 +54,15 @@ void WeatherData::setSunsetTime(QTime sunsetTime)
     emit sunsetTimeChanged();
 }
 
+void WeatherData::setIndoorTemperature(quint16 indoorTemperature)
+{
+    if (m_indoorTemperature == indoorTemperature)
+        return;
+
+    m_indoorTemperature = indoorTemperature;
+    emit indoorTemperatureChanged();
+}
+
 void WeatherData::setAPI(AbstractWeatherAPIAccess* api)
 {
     if (m_api == api)

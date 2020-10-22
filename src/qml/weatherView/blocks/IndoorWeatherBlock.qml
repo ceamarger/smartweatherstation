@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 
 import "../../components"
 
@@ -8,13 +8,19 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    QtObject {
+        id: __private
+
+        readonly property var weatherData: weather.data
+    }
+
     Row {
         id: indoorTemperatureRow
         spacing: 15
 
         SWSText {
             id: indoorTemperatureText
-            text: "0°K"
+            text: (__private.weatherData.indoorTemperature / 100 )+ "°K"
             font.pixelSize: 25
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
