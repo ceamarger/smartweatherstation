@@ -19,6 +19,7 @@ class WeatherData : public QObject {
     Q_PROPERTY(quint8 humidityPercentage READ humidityPercentage NOTIFY humidityPercentageChanged)
     Q_PROPERTY(QTime sunriseTime READ sunriseTime NOTIFY sunriseTimeChanged)
     Q_PROPERTY(QTime sunsetTime READ sunsetTime NOTIFY sunsetTimeChanged)
+    Q_PROPERTY(quint16 indoorTemperature READ indoorTemperature NOTIFY indoorTemperatureChanged)
 
     Q_PROPERTY(AbstractWeatherAPIAccess* api READ api CONSTANT)
 
@@ -29,18 +30,15 @@ public:
     quint8 humidityPercentage() const { return m_humidityPercentage; }
     QTime sunriseTime() const { return m_sunriseTime; }
     QTime sunsetTime() const { return m_sunsetTime; }
+    quint16 indoorTemperature() const { return m_indoorTemperature; }
     AbstractWeatherAPIAccess* api() const { return m_api; }
-
-    void setOutdoorTemperature(quint16 outdoorTemperature);
-    void setHumidityPercentage(quint8 humidityPercentage);
-    void setSunriseTime(QTime sunriseTime);
-    void setSunsetTime(QTime sunsetTime);
 
 signals:
     void outdoorTemperatureChanged();
     void humidityPercentageChanged();
     void sunriseTimeChanged();
     void sunsetTimeChanged();
+    void indoorTemperatureChanged();
 
 private slots:
     void parseReceivedJsonData(QJsonDocument jsonData);
@@ -48,10 +46,20 @@ private slots:
 private:
     void setAPI(AbstractWeatherAPIAccess* api);
 
+    void setOutdoorTemperature(quint16 outdoorTemperature);
+    void setHumidityPercentage(quint8 humidityPercentage);
+    void setSunriseTime(QTime sunriseTime);
+    void setSunsetTime(QTime sunsetTime);
+    void setIndoorTemperature(quint16 indoorTemperature);
+
+    // outdoor
     quint16 m_outdoorTemperature = 0; // centiKelvin (°K * 100)
     quint8 m_humidityPercentage = 0;
     QTime m_sunriseTime = QTime(0, 0);
     QTime m_sunsetTime = QTime(0, 0);
+
+    // indoor
+    quint16 m_indoorTemperature = 0; // centiKelvin (°K * 100)
 
     WeatherSettings* m_settings = nullptr;
     AbstractWeatherAPIAccess* m_api = nullptr;

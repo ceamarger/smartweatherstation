@@ -20,5 +20,6 @@
         <file alias="MainScreenContent.qml">weatherView/MainScreenContent.qml</file>
         <file alias="blocks/DatetimeBlock.qml">weatherView/blocks/DatetimeBlock.qml</file>
         <file alias="blocks/OutdoorWeatherBlock.qml">weatherView/blocks/OutdoorWeatherBlock.qml</file>
+        <file alias="blocks/IndoorWeatherBlock.qml">weatherView/blocks/IndoorWeatherBlock.qml</file>
     </qresource>
 </RCC>

@@ -5,6 +5,7 @@
         <file alias="sunrise_icon.png">weather_icons/sunrise_icon.png</file>
         <file alias="sunset_icon.png">weather_icons/sunset_icon.png</file>
         <file alias="humidity_icon.png">weather_icons/humidity_icon.png</file>
+        <file alias="indoor_icon.png">weather_icons/indoor_icon.png</file>
     </qresource>
     <qresource prefix="/menus">
         <file alias="settings_menu_icon.png">menu_icons/settings_menu_icon.png</file>

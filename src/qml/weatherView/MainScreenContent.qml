@@ -82,6 +82,13 @@ Rectangle {
         humidityInfoVIsible: __private.isCompleteView
     }
 
+    IndoorWeatherBlock {
+        id: indoorWeatherBlock
+        anchors.verticalCenter: animationInvisibleItem.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: __private.defaultBorderMargin
+    }
+
     MouseArea {
         anchors.fill: parent
         onClicked: root.switchState()
