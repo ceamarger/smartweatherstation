@@ -35,6 +35,19 @@ target_link_libraries(SWSWeatherLib
     Qt5::Core
     Qt5::Quick)
 
+# -------------- Utils Lib
+file(GLOB UTILS_SOURCE
+    utils/*.cpp)
+
+file(GLOB UTILS_HEADER
+    utils/*.h)
+
+add_library(SWSUtilsLib SHARED ${UTILS_SOURCE} ${UTILS_HEADER} )
+target_link_libraries(SWSUtilsLib
+    PRIVATE
+    Qt5::Core
+    Qt5::Quick)
+
 # -------------- Application executable
 qt5_add_resources(
     QRC_RESSOURCES
@@ -59,5 +72,6 @@ target_link_libraries(
     PRIVATE
     SWSCoreLib
     SWSWeatherLib
+    SWSUtilsLib
     Qt5::Core
     Qt5::Quick)
