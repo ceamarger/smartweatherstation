@@ -24,13 +24,28 @@ target_link_libraries(SWSCoreLib
 
 # -------------- Weather Lib
 file(GLOB WEATHER_SOURCE
-    weather/*.cpp)
+    weather/*.cpp
+    weather/settings/*.cpp)
 
 file(GLOB WEATHER_HEADER
-    weather/*.h)
+    weather/*.h
+    weather/settings/*.h)
 
 add_library(SWSWeatherLib SHARED ${WEATHER_HEADER} ${WEATHER_SOURCE} )
 target_link_libraries(SWSWeatherLib
+    PRIVATE
+    Qt5::Core
+    Qt5::Quick)
+
+# -------------- Utils Lib
+file(GLOB UTILS_SOURCE
+    utils/*.cpp)
+
+file(GLOB UTILS_HEADER
+    utils/*.h)
+
+add_library(SWSUtilsLib SHARED ${UTILS_SOURCE} ${UTILS_HEADER} )
+target_link_libraries(SWSUtilsLib
     PRIVATE
     Qt5::Core
     Qt5::Quick)
@@ -59,5 +74,6 @@ target_link_libraries(
     PRIVATE
     SWSCoreLib
     SWSWeatherLib
+    SWSUtilsLib
     Qt5::Core
     Qt5::Quick)

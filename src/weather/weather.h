@@ -3,8 +3,8 @@
 
 #include <QObject>
 
+#include "settings/weathersettings.h"
 #include "weatherdata.h"
-#include "weathersettings.h"
 
 /*!
  * \brief The Weather weather element interactivity
