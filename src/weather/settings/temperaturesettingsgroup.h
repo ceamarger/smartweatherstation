@@ -9,6 +9,7 @@ class TemperatureSettingsGroup : public SettingsGroup {
 
     Q_PROPERTY(TemperatureUnit unit READ unit WRITE setUnit NOTIFY unitChanged)
     Q_PROPERTY(QString unitString READ unitString NOTIFY unitChanged)
+    Q_PROPERTY(QStringList availableUnitsStrings READ availableUnitsStrings CONSTANT)
 
 public:
     enum class TemperatureUnit { Kelvin, Celsius, Fahrenheit };
@@ -18,11 +19,19 @@ public:
 
     TemperatureUnit unit() const;
     QString unitString() const;
+    static QString unitFullName(TemperatureUnit unit);
+
+    static QStringList availableUnitsStrings();
+    Q_INVOKABLE static TemperatureUnit availableUnitAtIndex(int index);
+    Q_INVOKABLE static int availableUnitIndex(TemperatureUnit unit);
 
     void setUnit(TemperatureUnit newUnit);
 
 signals:
     void unitChanged(TemperatureUnit unit);
+
+private:
+    static QList<TemperatureUnit> const AvailableUnits;
 };
 
 namespace TemperatureSettingsParameters {

@@ -12,7 +12,8 @@ Item {
     signal exitClicked()
 
     property list<SettingsMenu> menus: [
-        OpenWeatherMapAPISettings {}
+        OpenWeatherMapAPISettings {},
+        TemperatureSettings {}
     ]
 
     function show() {

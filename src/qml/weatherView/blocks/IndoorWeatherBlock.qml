@@ -26,7 +26,7 @@ Item {
             id: indoorTemperatureText
             text: TemperatureConverter.convert(__private.weatherData.indoorTemperature / 100,
                                                TemperatureConverter.Kelvin,
-                                               TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)).toFixed(1) + __private.weatherData.settings.temperatureSettings.unitString
+                                               TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)).toFixed(1) + __private.temperatureSettings.unitString
             font.pixelSize: 25
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
