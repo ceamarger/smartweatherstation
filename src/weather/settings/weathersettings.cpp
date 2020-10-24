@@ -1,5 +1,7 @@
 #include "weathersettings.h"
 
+#include "temperaturesettingsgroup.h"
+
 /*!
  * \brief Constructs a new weather settings object with the given parent and the given \a filename
  * file
@@ -11,6 +13,7 @@ WeatherSettings::WeatherSettings(const QString& filename, QObject* parent)
     : QObject(parent)
     , m_settings(new QSettings(filename, QSettings::IniFormat, this))
 {
+    createDefaultGroups();
 }
 
 /*!
@@ -48,3 +51,20 @@ void WeatherSettings::setValue(const QString& group, const QString& key, const Q
     m_settings->setValue(key, value);
     m_settings->endGroup();
 }
+
+TemperatureSettingsGroup* WeatherSettings::temperatureSettings()
+{
+    return qobject_cast<TemperatureSettingsGroup*>(group(TemperatureSettingsParameters::GroupName));
+}
+
+void WeatherSettings::addGroup(SettingsGroup* group) { m_settingsGroups.append(group); }
+
+SettingsGroup* WeatherSettings::group(const QString& name) const
+{
+    auto group = std::find_if(m_settingsGroups.begin(), m_settingsGroups.end(),
+        [&name](SettingsGroup* settingsGroup) { return settingsGroup->name() == name; });
+
+    return group != m_settingsGroups.end() ? *group : nullptr;
+}
+
+void WeatherSettings::createDefaultGroups() { addGroup(new TemperatureSettingsGroup(this, this)); }

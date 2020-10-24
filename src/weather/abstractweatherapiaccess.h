@@ -4,7 +4,7 @@
 #include <QJsonDocument>
 #include <QObject>
 
-#include "weathersettings.h"
+#include "settings/weathersettings.h"
 
 /*!
  * \brief An abstract class that provides basics to have differents weather APIs

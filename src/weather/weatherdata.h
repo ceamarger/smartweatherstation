@@ -6,7 +6,7 @@
 #include <QTime>
 
 #include "abstractweatherapiaccess.h"
-#include "weathersettings.h"
+#include "settings/weathersettings.h"
 
 /*!
  * \brief This class contains weather data.
@@ -22,6 +22,7 @@ class WeatherData : public QObject {
     Q_PROPERTY(quint16 indoorTemperature READ indoorTemperature NOTIFY indoorTemperatureChanged)
 
     Q_PROPERTY(AbstractWeatherAPIAccess* api READ api CONSTANT)
+    Q_PROPERTY(WeatherSettings* settings READ settings CONSTANT)
 
 public:
     explicit WeatherData(WeatherSettings* settings, QObject* parent = nullptr);
@@ -32,6 +33,7 @@ public:
     QTime sunsetTime() const { return m_sunsetTime; }
     quint16 indoorTemperature() const { return m_indoorTemperature; }
     AbstractWeatherAPIAccess* api() const { return m_api; }
+    WeatherSettings* settings() const { return m_settings; }
 
 signals:
     void outdoorTemperatureChanged();

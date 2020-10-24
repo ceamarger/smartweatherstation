@@ -24,10 +24,12 @@ target_link_libraries(SWSCoreLib
 
 # -------------- Weather Lib
 file(GLOB WEATHER_SOURCE
-    weather/*.cpp)
+    weather/*.cpp
+    weather/settings/*.cpp)
 
 file(GLOB WEATHER_HEADER
-    weather/*.h)
+    weather/*.h
+    weather/settings/*.h)
 
 add_library(SWSWeatherLib SHARED ${WEATHER_HEADER} ${WEATHER_SOURCE} )
 target_link_libraries(SWSWeatherLib
