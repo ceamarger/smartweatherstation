@@ -1,2 +1,3 @@
 singleton Constants 1.0 Constants.qml
 singleton Colors 1.0 Colors.qml
+singleton TemperatureHelper 1.0 TemperatureHelper.qml

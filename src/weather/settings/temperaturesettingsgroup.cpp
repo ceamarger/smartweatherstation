@@ -15,6 +15,18 @@ TemperatureSettingsGroup::TemperatureUnit TemperatureSettingsGroup::unit() const
             .toInt());
 }
 
+QString TemperatureSettingsGroup::unitString() const
+{
+    switch (unit()) {
+    case TemperatureUnit::Kelvin:
+        return "K";
+    case TemperatureUnit::Celsius:
+        return "°C";
+    case TemperatureUnit::Fahrenheit:
+        return "°F";
+    }
+}
+
 void TemperatureSettingsGroup::setUnit(TemperatureSettingsGroup::TemperatureUnit newUnit)
 {
     if (newUnit == unit())

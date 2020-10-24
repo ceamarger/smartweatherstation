@@ -19,6 +19,7 @@ Item {
         id: __private
 
         readonly property var weatherData: weather.data
+        readonly property var temperatureSettings: weather.data.settings.temperatureSettings
     }
 
     Column {
@@ -39,7 +40,7 @@ Item {
                 id: outdoorTemperatureText
                 text: TemperatureConverter.convert(__private.weatherData.outdoorTemperature / 100,
                                                    TemperatureConverter.Kelvin,
-                                                   TemperatureConverter.Celsius).toFixed(1) + "°C"
+                                                   TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)).toFixed(1) + __private.temperatureSettings.unitString
                 font.pixelSize: 25
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter

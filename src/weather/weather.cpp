@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 
 #include "abstractweatherapiaccess.h"
+#include "settings/temperaturesettingsgroup.h"
 
 const QString Weather::WeatherSettingsFileName = "WeatherSettings";
 
@@ -40,4 +41,6 @@ void Weather::registerQMLTypes()
         "sws.weather", 1, 0, "WeatherSettings", "WeatherSettings cannot be created in QML");
     qmlRegisterUncreatableType<SettingsGroup>(
         "sws.weather", 1, 0, "SettingsGroup", "SettingsGroup cannot be created in QML");
+    qmlRegisterUncreatableType<TemperatureSettingsGroup>("sws.weather", 1, 0,
+        "TemperatureSettingsGroup", "TemperatureSettingsGroup cannot be created in QML");
 }

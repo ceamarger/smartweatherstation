@@ -4,6 +4,7 @@
         <file>qmldir</file>
         <file alias="Constants.qml">Constants.qml</file>
         <file alias="Colors.qml">Colors.qml</file>
+        <file>TemperatureHelper.qml</file>
     </qresource>
     <qresource prefix="/components">
         <file alias="SWSText.qml">components/SWSText.qml</file>
