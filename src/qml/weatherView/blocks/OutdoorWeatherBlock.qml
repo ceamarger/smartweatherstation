@@ -1,4 +1,4 @@
-import QtQuick 2.15
+﻿import QtQuick 2.15
 
 import "../.."
 import "../../components"
@@ -37,7 +37,9 @@ Item {
 
             SWSText {
                 id: outdoorTemperatureText
-                text: TemperatureConverter.kelvinToCelsius(__private.weatherData.outdoorTemperature / 100).toFixed(1) + "°C"
+                text: TemperatureConverter.convert(__private.weatherData.outdoorTemperature / 100,
+                                                   TemperatureConverter.Kelvin,
+                                                   TemperatureConverter.Celsius).toFixed(1) + "°C"
                 font.pixelSize: 25
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
