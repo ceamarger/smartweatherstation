@@ -1,6 +1,6 @@
 #include "weathersettings.h"
 
-#include "temperaturesettingsgroup.h"
+#include "settingsgroup/temperaturesettingsgroup.h"
 
 /*!
  * \brief Constructs a new weather settings object with the given parent and the given \a filename

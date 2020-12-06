@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "settingsgroup.h"
+#include "settingsgroup/settingsgroup.h"
 
 class TemperatureSettingsGroup;
 

@@ -1,6 +1,6 @@
 #include "temperaturesettingsgroup.h"
 
-#include "weathersettings.h"
+#include "../weathersettings.h"
 
 QList<TemperatureSettingsGroup::TemperatureUnit> const TemperatureSettingsGroup::AvailableUnits
     = { TemperatureSettingsGroup::TemperatureUnit::Kelvin,

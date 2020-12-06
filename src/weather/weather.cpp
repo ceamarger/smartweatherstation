@@ -3,7 +3,7 @@
 #include <QQmlEngine>
 
 #include "abstractweatherapiaccess.h"
-#include "settings/temperaturesettingsgroup.h"
+#include "settings/settingsgroup/temperaturesettingsgroup.h"
 
 const QString Weather::WeatherSettingsFileName = "WeatherSettings";
 
