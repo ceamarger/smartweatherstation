@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 ComboBox {
     id: root
 
+    readonly property bool isValueValid: find(editText) !== -1
+
     background: Rectangle {
         border.color: parent.activeFocus ? "#7afffd" : "transparent"
         color: "#59ace3"
@@ -21,6 +23,24 @@ ComboBox {
             verticalAlignment: Text.AlignVCenter
         }
         highlighted: root.highlightedIndex === index
+    }
+
+    contentItem: TextField {
+        enabled: root.editable
+        leftPadding: 0
+        rightPadding: root.indicator.width + root.spacing
+
+        text: root.editText
+        color: root.isValueValid ? "black" : "red"
+        font.family: "Helvetica"
+
+        background: Rectangle {
+            border.color: root.activeFocus ? (root.isValueValid ? "#7afffd" : "red")
+                                           : "transparent"
+            color: "#59ace3"
+        }
+
+        verticalAlignment: Text.AlignVCenter
     }
 
     popup: Popup {
