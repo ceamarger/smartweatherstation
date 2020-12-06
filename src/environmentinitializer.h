@@ -4,6 +4,7 @@
 #include <QQmlContext>
 
 #include "core/datetimesettings.h"
+#include "utils/location/locationfinder.h"
 #include "weather/weather.h"
 
 class EnvironmentInitializer {
@@ -19,9 +20,11 @@ private:
     EnvironmentInitializer& operator=(const EnvironmentInitializer&) = delete;
 
     void initializeContext(QQmlContext* context);
+    void initializeLocations();
 
     DateTimeSettings m_dateTimeSettings;
     Weather m_weather;
+    LocationFinder m_locationFinder;
 };
 
 #endif // ENVIRONMENTINITIALIZER_H
