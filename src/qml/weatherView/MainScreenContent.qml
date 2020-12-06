@@ -10,7 +10,7 @@ Rectangle {
 
     signal settingsClicked()
 
-    Component.onCompleted: root.state = __private.simplifiedViewState
+    state : __private.simplifiedViewState
 
     QtObject {
         id: __private
