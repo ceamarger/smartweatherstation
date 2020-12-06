@@ -20,6 +20,7 @@ void EnvironmentInitializer::initializeContext(QQmlContext* context)
 {
     context->setContextProperty("dateTimeSettings", &m_dateTimeSettings);
     context->setContextProperty("weather", &m_weather);
+    context->setContextProperty("locationFinder", &m_locationFinder);
 
     qmlRegisterSingletonType<TemperatureConverter>("sws.utils", 1, 0, "TemperatureConverter",
         [](QQmlEngine* engine, QJSEngine* scriptEngine) -> TemperatureConverter* {

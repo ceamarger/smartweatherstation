@@ -12,7 +12,9 @@ ComboBox {
     delegate: ItemDelegate {
         width: root.width
         contentItem: Text {
-            text: modelData
+            text: root.textRole ? (Array.isArray(root.model) ? modelData[root.textRole]
+                                                             : model[root.textRole])
+                                : modelData
             color: "black"
             font.family: "Helvetica"
             elide: Text.ElideRight

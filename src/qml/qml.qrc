@@ -18,6 +18,7 @@
         <file alias="MenuSelector.qml">settingsMenus/MenuSelector.qml</file>
         <file alias="weatherAPISettings/OpenWeatherMapAPISettings.qml">settingsMenus/weatherAPISettings/OpenWeatherMapAPISettings.qml</file>
         <file alias="TemperatureSettings.qml">settingsMenus/TemperatureSettings.qml</file>
+        <file alias="GeneralWeatherSettings.qml">settingsMenus/GeneralWeatherSettings.qml</file>
     </qresource>
     <qresource prefix="/weatherView">
         <file alias="MainScreenContent.qml">weatherView/MainScreenContent.qml</file>

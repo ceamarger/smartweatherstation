@@ -3,21 +3,12 @@
 
 #include <QObject>
 
-struct Coordinates {
-    qreal longitude;
-    qreal latitude;
-};
-
-struct Location {
-    qint64 id = -1;
-    QString name = "";
-    QString state = "";
-    QString country = "";
-    Coordinates coordinates = { .0, .0 };
-};
+#include "locationlistmodel.h"
 
 class LocationFinder : public QObject {
     Q_OBJECT
+
+    Q_PROPERTY(LocationListModel* availableLocations READ availableLocations CONSTANT)
 
 public:
     explicit LocationFinder(QObject* parent = nullptr);
@@ -25,8 +16,9 @@ public:
     void populateLocations();
 
 private:
-    static QList<Location> Locations;
+    LocationListModel* availableLocations() const { return &AvailableLocations; }
 
+    static LocationListModel AvailableLocations;
     static const QString CityListFilePath;
 };
 

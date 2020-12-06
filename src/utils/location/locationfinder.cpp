@@ -7,7 +7,7 @@
 #include <QJsonObject>
 #include <QtDebug>
 
-QList<Location> LocationFinder::Locations;
+LocationListModel LocationFinder::AvailableLocations;
 const QString LocationFinder::CityListFilePath = "data/citylist.json";
 
 LocationFinder::LocationFinder(QObject* parent)
@@ -43,8 +43,8 @@ void LocationFinder::populateLocations()
         location.country = citiesJson[LocationJsonKeys::Country].toString();
         location.coordinates = coords;
 
-        Locations.append(location);
+        AvailableLocations.append(location);
     }
 
-    qDebug() << Locations.count() << "cities imported.";
+    qDebug() << AvailableLocations.rowCount() << "cities imported.";
 }
