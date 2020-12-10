@@ -15,6 +15,8 @@ public:
 
     void populateLocations();
 
+    Q_INVOKABLE const Location* fromLocationId(qint64 id) const;
+
 private:
     LocationListModel* availableLocations() const { return &AvailableLocations; }
 

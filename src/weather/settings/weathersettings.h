@@ -10,6 +10,7 @@
 #include "settingsgroup/settingsgroup.h"
 
 class TemperatureSettingsGroup;
+class WeatherSettingsGroup;
 
 /*!
  * \class WeatherSettings
@@ -22,6 +23,7 @@ class WeatherSettings : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(SettingsGroup* temperatureSettings READ temperatureSettings CONSTANT)
+    Q_PROPERTY(SettingsGroup* generalWeatherSettings READ generalWeatherSettings CONSTANT)
 
 public:
     explicit WeatherSettings(const QString& filename, QObject* parent = nullptr);
@@ -31,6 +33,7 @@ public:
     void setValue(const QString& group, const QString& key, const QVariant& value);
 
     TemperatureSettingsGroup* temperatureSettings();
+    WeatherSettingsGroup* generalWeatherSettings();
 
 signals:
 

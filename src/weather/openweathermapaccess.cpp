@@ -5,6 +5,8 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 
+#include "settings/settingsgroup/weathersettingsgroup.h"
+
 std::chrono::seconds OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
 
 /*!
@@ -36,6 +38,7 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* p
  */
 const QString OpenWeatherMapAccess::appId() const
 {
+    // TODO (camar) : use new SettingsGroup class
     using namespace OpenWeatherMapSettingsParameters;
     return settings() ? settings()->value(GroupName, AppId).toString() : "";
 }
@@ -49,10 +52,11 @@ void OpenWeatherMapAccess::requestData()
 {
     qDebug() << "Requesting weather data...";
 
+    auto locationId
+        = settings() ? QString::number(settings()->generalWeatherSettings()->locationId()) : "";
     QString urlString = "http://api.openweathermap.org/data/2.5/";
-    // Append City (TODO : manage city changes)
-    urlString.append("weather?q=Lyon");
-    // AppId should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 but needs settings menu
+    urlString.append("weather?id=" + locationId);
+    // AppId should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 (used for test only) but needs settings menu
     urlString.append("&appid=" + appId());
     QUrl url(urlString);
 

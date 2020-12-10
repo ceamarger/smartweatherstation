@@ -20,7 +20,6 @@ private:
     EnvironmentInitializer& operator=(const EnvironmentInitializer&) = delete;
 
     void initializeContext(QQmlContext* context);
-    void initializeLocations();
 
     DateTimeSettings m_dateTimeSettings;
     Weather m_weather;

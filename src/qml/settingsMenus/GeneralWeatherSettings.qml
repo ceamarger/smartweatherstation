@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import sws.utils 1.0
 
 import "../components"
 
@@ -10,8 +11,15 @@ SettingsMenu {
     content: Item {
         anchors.fill: parent
 
+        QtObject {
+            id: __private
+
+            readonly property var generalWeatherSettings: weather.data.settings.generalWeatherSettings
+        }
+
         Column {
             width: parent.width
+            spacing: 10
 
             Row {
                 width: parent.width
@@ -27,12 +35,27 @@ SettingsMenu {
                 }
 
                 SWSCombobox {
+                    id: locationCombobox
                     height: parent.height
                     width: parent.width - locationLabel.width - parent.spacing
                     model: locationFinder.availableLocations
                     textRole: "name"
+                    valueRole: "id"
                     editable: true
+
+                    Component.onCompleted: currentIndex = indexOfValue(__private.generalWeatherSettings.locationId)
+
+                    onActivated: __private.generalWeatherSettings.locationId = model.data(model.index(index), LocationListModel.IdRole)
                 }
+            }
+
+            SWSText {
+                id: invalidLocationWarning
+                text: qsTr("/!\ Uknown city. Please enter a valid one.")
+                font.bold: true
+                color: "darkred"
+                visible: !locationCombobox.isValueValid
+                verticalAlignment: Text.AlignVCenter
             }
         }
     }

@@ -13,6 +13,7 @@ const QString LocationFinder::CityListFilePath = "data/citylist.json";
 LocationFinder::LocationFinder(QObject* parent)
     : QObject(parent)
 {
+    populateLocations();
 }
 
 void LocationFinder::populateLocations()
@@ -36,15 +37,16 @@ void LocationFinder::populateLocations()
         coords.latitude = citiesCoordJson[LocationJsonKeys::Latitude].toVariant().toReal();
         coords.longitude = citiesCoordJson[LocationJsonKeys::Longitude].toVariant().toReal();
 
-        Location location;
-        location.id = citiesJson[LocationJsonKeys::Id].toInt();
-        location.name = citiesJson[LocationJsonKeys::Name].toString();
-        location.state = citiesJson[LocationJsonKeys::State].toString();
-        location.country = citiesJson[LocationJsonKeys::Country].toString();
-        location.coordinates = coords;
-
-        AvailableLocations.append(location);
+        AvailableLocations.append(new Location(citiesJson[LocationJsonKeys::Id].toInt(),
+            citiesJson[LocationJsonKeys::Name].toString(),
+            citiesJson[LocationJsonKeys::State].toString(),
+            citiesJson[LocationJsonKeys::Country].toString(), coords, this));
     }
 
     qDebug() << AvailableLocations.rowCount() << "cities imported.";
+}
+
+const Location* LocationFinder::fromLocationId(qint64 id) const
+{
+    return AvailableLocations.getFromId(id);
 }

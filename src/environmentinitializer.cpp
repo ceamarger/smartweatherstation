@@ -2,6 +2,7 @@
 
 #include <QQmlEngine>
 
+#include "utils/location/locationlistmodel.h"
 #include "utils/temperatureconverter.h"
 
 EnvironmentInitializer& EnvironmentInitializer::getInstance()
@@ -10,11 +11,7 @@ EnvironmentInitializer& EnvironmentInitializer::getInstance()
     return instance;
 }
 
-void EnvironmentInitializer::initialize(QQmlContext* context)
-{
-    initializeLocations();
-    initializeContext(context);
-}
+void EnvironmentInitializer::initialize(QQmlContext* context) { initializeContext(context); }
 
 void EnvironmentInitializer::initializeContext(QQmlContext* context)
 {
@@ -30,6 +27,8 @@ void EnvironmentInitializer::initializeContext(QQmlContext* context)
             auto converter = new TemperatureConverter();
             return converter;
         });
-}
 
-void EnvironmentInitializer::initializeLocations() { m_locationFinder.populateLocations(); }
+    qmlRegisterUncreatableType<LocationListModel>(
+        "sws.utils", 1, 0, "LocationListModel", "LocationListModel cannot be created in QML");
+    qRegisterMetaType<Location*>("const Location*");
+}

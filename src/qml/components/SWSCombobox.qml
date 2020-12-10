@@ -6,6 +6,18 @@ ComboBox {
 
     readonly property bool isValueValid: find(editText) !== -1
 
+    signal invalidValueAccepted()
+
+    onAccepted: {
+        if (isValueValid) {
+            focus = false
+            activated(currentIndex)
+        }
+        else {
+            invalidValueAccepted()
+        }
+    }
+
     background: Rectangle {
         border.color: parent.activeFocus ? "#7afffd" : "transparent"
         color: "#59ace3"
@@ -31,11 +43,11 @@ ComboBox {
         rightPadding: root.indicator.width + root.spacing
 
         text: root.editText
-        color: root.isValueValid ? "black" : "red"
+        color: root.isValueValid ? "black" : "darkred"
         font.family: "Helvetica"
 
         background: Rectangle {
-            border.color: root.activeFocus ? (root.isValueValid ? "#7afffd" : "red")
+            border.color: root.activeFocus ? (root.isValueValid ? "#7afffd" : "darkred")
                                            : "transparent"
             color: "#59ace3"
         }

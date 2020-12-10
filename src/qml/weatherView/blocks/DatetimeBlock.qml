@@ -1,5 +1,7 @@
 import QtQuick 2.15
 
+import sws.utils 1.0
+
 import "../../components"
 
 Item {
@@ -7,9 +9,25 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    QtObject {
+        id: __private
+
+        readonly property var generalWeatherSettings: weather.data.settings.generalWeatherSettings
+    }
+
     Column {
         id: dateTimeColumn
         spacing: 15
+
+        SWSText {
+            id: locationText
+            text: locationFinder.fromLocationId(__private.generalWeatherSettings.locationId).name
+            font.pixelSize: 20
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
 
         SWSText {
             id: timeText
