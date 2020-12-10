@@ -26,6 +26,9 @@ public:
 
     WeatherSettings* settings() const { return m_settings; }
 
+public slots:
+    void refresh() { requestData(); }
+
 signals:
     /*!
      * \brief Signal to emit when data has been received from the API

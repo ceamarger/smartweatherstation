@@ -36,6 +36,7 @@ public:
     WeatherSettingsGroup* generalWeatherSettings();
 
 signals:
+    void apiUsedParameterChanged();
 
 private:
     // NOTE (camar) : Maybe move group() and addGroup() to public to allow custom settings

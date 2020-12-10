@@ -76,5 +76,9 @@ SettingsGroup* WeatherSettings::group(const QString& name) const
 void WeatherSettings::createDefaultGroups()
 {
     addGroup(new TemperatureSettingsGroup(this, this));
+
+    generalWeatherSettings()->disconnect(this);
     addGroup(new WeatherSettingsGroup(this, this));
+    connect(generalWeatherSettings(), &WeatherSettingsGroup::locationIdChanged, this,
+        &WeatherSettings::apiUsedParameterChanged);
 }
