@@ -10,7 +10,7 @@
 #include "settingsgroup/settingsgroup.h"
 
 class TemperatureSettingsGroup;
-class WeatherSettingsGroup;
+class GeneralWeatherSettingsGroup;
 
 /*!
  * \class WeatherSettings
@@ -33,7 +33,7 @@ public:
     void setValue(const QString& group, const QString& key, const QVariant& value);
 
     TemperatureSettingsGroup* temperatureSettings();
-    WeatherSettingsGroup* generalWeatherSettings();
+    GeneralWeatherSettingsGroup* generalWeatherSettings();
 
 signals:
     void apiUsedParameterChanged();

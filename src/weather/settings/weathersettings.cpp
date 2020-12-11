@@ -1,7 +1,7 @@
 #include "weathersettings.h"
 
+#include "settingsgroup/generalweathersettingsgroup.h"
 #include "settingsgroup/temperaturesettingsgroup.h"
-#include "settingsgroup/weathersettingsgroup.h"
 
 /*!
  * \brief Constructs a new weather settings object with the given parent and the given \a filename
@@ -58,9 +58,10 @@ TemperatureSettingsGroup* WeatherSettings::temperatureSettings()
     return qobject_cast<TemperatureSettingsGroup*>(group(TemperatureSettingsParameters::GroupName));
 }
 
-WeatherSettingsGroup* WeatherSettings::generalWeatherSettings()
+GeneralWeatherSettingsGroup* WeatherSettings::generalWeatherSettings()
 {
-    return qobject_cast<WeatherSettingsGroup*>(group(WeatherSettingsParameters::GroupName));
+    return qobject_cast<GeneralWeatherSettingsGroup*>(
+        group(GeneralWeatherSettingsParameters::GroupName));
 }
 
 void WeatherSettings::addGroup(SettingsGroup* group) { m_settingsGroups.append(group); }
@@ -78,7 +79,7 @@ void WeatherSettings::createDefaultGroups()
     addGroup(new TemperatureSettingsGroup(this, this));
 
     generalWeatherSettings()->disconnect(this);
-    addGroup(new WeatherSettingsGroup(this, this));
-    connect(generalWeatherSettings(), &WeatherSettingsGroup::locationIdChanged, this,
+    addGroup(new GeneralWeatherSettingsGroup(this, this));
+    connect(generalWeatherSettings(), &GeneralWeatherSettingsGroup::locationIdChanged, this,
         &WeatherSettings::apiUsedParameterChanged);
 }

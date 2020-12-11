@@ -1,15 +1,15 @@
-#ifndef WEATHERSETTINGSGROUP_H
-#define WEATHERSETTINGSGROUP_H
+#ifndef GENERALWEATHERSETTINGSGROUP_H
+#define GENERALWEATHERSETTINGSGROUP_H
 
 #include "settingsgroup.h"
 #include <QObject>
 
-class WeatherSettingsGroup : public SettingsGroup {
+class GeneralWeatherSettingsGroup : public SettingsGroup {
     Q_OBJECT
 
     Q_PROPERTY(int locationId READ locationId WRITE setLocationId NOTIFY locationIdChanged)
 public:
-    explicit WeatherSettingsGroup(WeatherSettings* settings, QObject* parent = nullptr);
+    explicit GeneralWeatherSettingsGroup(WeatherSettings* settings, QObject* parent = nullptr);
 
     int locationId() const;
 
@@ -20,9 +20,9 @@ signals:
     void locationIdChanged(int locationId);
 };
 
-namespace WeatherSettingsParameters {
+namespace GeneralWeatherSettingsParameters {
 
 static const QString GroupName = "GeneralWeatherSettings";
 static const QString LocationId = "locationId";
 }
-#endif // WEATHERSETTINGSGROUP_H
+#endif // GENERALWEATHERSETTINGSGROUP_H

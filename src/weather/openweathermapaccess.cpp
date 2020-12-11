@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 
-#include "settings/settingsgroup/weathersettingsgroup.h"
+#include "settings/settingsgroup/generalweathersettingsgroup.h"
 
 std::chrono::seconds OpenWeatherMapAccess::RefreshInterval = std::chrono::minutes(1);
 
