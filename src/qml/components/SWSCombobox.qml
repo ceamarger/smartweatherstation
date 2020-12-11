@@ -4,6 +4,20 @@ import QtQuick.Controls 2.15
 ComboBox {
     id: root
 
+    readonly property bool isValueValid: find(editText) !== -1
+
+    signal invalidValueAccepted()
+
+    onAccepted: {
+        if (isValueValid) {
+            focus = false
+            activated(currentIndex)
+        }
+        else {
+            invalidValueAccepted()
+        }
+    }
+
     background: Rectangle {
         border.color: parent.activeFocus ? "#7afffd" : "transparent"
         color: "#59ace3"
@@ -12,13 +26,33 @@ ComboBox {
     delegate: ItemDelegate {
         width: root.width
         contentItem: Text {
-            text: modelData
+            text: root.textRole ? (Array.isArray(root.model) ? modelData[root.textRole]
+                                                             : model[root.textRole])
+                                : modelData
             color: "black"
             font.family: "Helvetica"
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
         }
         highlighted: root.highlightedIndex === index
+    }
+
+    contentItem: TextField {
+        enabled: root.editable
+        leftPadding: 0
+        rightPadding: root.indicator.width + root.spacing
+
+        text: root.editText
+        color: root.isValueValid ? "black" : "darkred"
+        font.family: "Helvetica"
+
+        background: Rectangle {
+            border.color: root.activeFocus ? (root.isValueValid ? "#7afffd" : "darkred")
+                                           : "transparent"
+            color: "#59ace3"
+        }
+
+        verticalAlignment: Text.AlignVCenter
     }
 
     popup: Popup {

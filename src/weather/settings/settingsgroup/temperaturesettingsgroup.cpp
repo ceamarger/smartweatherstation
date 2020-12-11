@@ -1,7 +1,5 @@
 #include "temperaturesettingsgroup.h"
 
-#include "../weathersettings.h"
-
 QList<TemperatureSettingsGroup::TemperatureUnit> const TemperatureSettingsGroup::AvailableUnits
     = { TemperatureSettingsGroup::TemperatureUnit::Kelvin,
           TemperatureSettingsGroup::TemperatureUnit::Celsius,
@@ -15,9 +13,7 @@ TemperatureSettingsGroup::TemperatureSettingsGroup(WeatherSettings* settings, QO
 TemperatureSettingsGroup::TemperatureUnit TemperatureSettingsGroup::unit() const
 {
     return static_cast<TemperatureSettingsGroup::TemperatureUnit>(
-        m_settings
-            ->value(TemperatureSettingsParameters::GroupName, TemperatureSettingsParameters::Unit)
-            .toInt());
+        value(TemperatureSettingsParameters::Unit).toInt());
 }
 
 QString TemperatureSettingsGroup::unitString() const
@@ -72,7 +68,6 @@ void TemperatureSettingsGroup::setUnit(TemperatureSettingsGroup::TemperatureUnit
     if (newUnit == unit())
         return;
 
-    m_settings->setValue(TemperatureSettingsParameters::GroupName,
-        TemperatureSettingsParameters::Unit, static_cast<int>(newUnit));
+    setValue(TemperatureSettingsParameters::Unit, static_cast<int>(newUnit));
     emit unitChanged(newUnit);
 }

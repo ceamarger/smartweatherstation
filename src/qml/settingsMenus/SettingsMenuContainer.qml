@@ -13,7 +13,8 @@ Item {
 
     property list<SettingsMenu> menus: [
         OpenWeatherMapAPISettings {},
-        TemperatureSettings {}
+        TemperatureSettings {},
+        GeneralWeatherSettings {}
     ]
 
     function show() {

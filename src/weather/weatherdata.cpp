@@ -16,6 +16,9 @@ WeatherData::WeatherData(WeatherSettings* settings, QObject* parent)
 {
     // TODO (camar) : manage api change
     setAPI(new OpenWeatherMapAccess(m_settings, this));
+
+    connect(m_settings, &WeatherSettings::apiUsedParameterChanged, m_api,
+        &AbstractWeatherAPIAccess::refresh);
 }
 
 void WeatherData::setOutdoorTemperature(quint16 outdoorTemperature)

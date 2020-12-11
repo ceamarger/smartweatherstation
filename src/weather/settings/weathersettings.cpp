@@ -1,5 +1,6 @@
 #include "weathersettings.h"
 
+#include "settingsgroup/generalweathersettingsgroup.h"
 #include "settingsgroup/temperaturesettingsgroup.h"
 
 /*!
@@ -57,6 +58,12 @@ TemperatureSettingsGroup* WeatherSettings::temperatureSettings()
     return qobject_cast<TemperatureSettingsGroup*>(group(TemperatureSettingsParameters::GroupName));
 }
 
+GeneralWeatherSettingsGroup* WeatherSettings::generalWeatherSettings()
+{
+    return qobject_cast<GeneralWeatherSettingsGroup*>(
+        group(GeneralWeatherSettingsParameters::GroupName));
+}
+
 void WeatherSettings::addGroup(SettingsGroup* group) { m_settingsGroups.append(group); }
 
 SettingsGroup* WeatherSettings::group(const QString& name) const
@@ -67,4 +74,12 @@ SettingsGroup* WeatherSettings::group(const QString& name) const
     return group != m_settingsGroups.end() ? *group : nullptr;
 }
 
-void WeatherSettings::createDefaultGroups() { addGroup(new TemperatureSettingsGroup(this, this)); }
+void WeatherSettings::createDefaultGroups()
+{
+    addGroup(new TemperatureSettingsGroup(this, this));
+
+    generalWeatherSettings()->disconnect(this);
+    addGroup(new GeneralWeatherSettingsGroup(this, this));
+    connect(generalWeatherSettings(), &GeneralWeatherSettingsGroup::locationIdChanged, this,
+        &WeatherSettings::apiUsedParameterChanged);
+}

@@ -6,7 +6,9 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-fPIC")
 
+set(DATA_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/data)
 set(PROJECT_EXPORT_DIR ${PROJECT_SOURCE_DIR}/export)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_EXPORT_DIR}/lib)
 
@@ -25,11 +27,13 @@ target_link_libraries(SWSCoreLib
 # -------------- Weather Lib
 file(GLOB WEATHER_SOURCE
     weather/*.cpp
-    weather/settings/*.cpp)
+    weather/settings/*.cpp
+    weather/settings/settingsgroup/*.cpp)
 
 file(GLOB WEATHER_HEADER
     weather/*.h
-    weather/settings/*.h)
+    weather/settings/*.h
+    weather/settings/settingsgroup/*.h)
 
 add_library(SWSWeatherLib SHARED ${WEATHER_HEADER} ${WEATHER_SOURCE} )
 target_link_libraries(SWSWeatherLib
@@ -39,12 +43,21 @@ target_link_libraries(SWSWeatherLib
 
 # -------------- Utils Lib
 file(GLOB UTILS_SOURCE
-    utils/*.cpp)
+    utils/*.cpp
+    utils/location/*.cpp)
 
 file(GLOB UTILS_HEADER
-    utils/*.h)
+    utils/*.h
+    utils/location/*.h)
 
-add_library(SWSUtilsLib SHARED ${UTILS_SOURCE} ${UTILS_HEADER} )
+file(GLOB UTILS_DATA
+  utils/data/*
+)
+
+add_subdirectory(utils/models/SortFilterProxyModel)
+file(COPY ${UTILS_DATA} DESTINATION ${DATA_OUTPUT_DIR})
+
+add_library(SWSUtilsLib SHARED ${UTILS_SOURCE} ${UTILS_HEADER} $<TARGET_OBJECTS:SortFilterProxyModel>)
 target_link_libraries(SWSUtilsLib
     PRIVATE
     Qt5::Core

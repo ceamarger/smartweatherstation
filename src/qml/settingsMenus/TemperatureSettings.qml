@@ -13,7 +13,6 @@ SettingsMenu {
         QtObject {
             id: __private
 
-            readonly property var weatherData: weather.data
             readonly property var temperatureSettings: weather.data.settings.temperatureSettings
         }
 
