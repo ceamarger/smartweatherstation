@@ -19,18 +19,51 @@ SettingsMenu {
         }
 
         SortFilterProxyModel {
-            id: citiesProxyModel
+            id: locationProxyModel
             sourceModel: locationFinder.availableLocations
             filters: RegExpFilter {
                 roleName: "country"
-                pattern: "*"
-                caseSensitivity: Qt.CaseInsensitive
+                pattern: "^(?!.*Other).*$"
+                caseSensitivity: Qt.CaseSensitive
             }
         }
 
         Column {
             width: parent.width
             spacing: 10
+
+            Row {
+                width: parent.width
+                height: 30
+                spacing: 10
+
+                SWSText {
+                    id: countryLabel
+                    text: qsTr("Country :")
+                    maxWidth: 150
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                SWSCombobox {
+                    id: countryCombobox
+                    height: parent.height
+                    width: parent.width - locationLabel.width - parent.spacing
+                    model: locationFinder.availableCountries
+                    textRole: "name"
+                    valueRole: "id"
+                    editable: true
+                }
+            }
+
+            SWSText {
+                id: invalidCountryWarning
+                text: qsTr("/!\ Uknown country. Please enter a valid one.")
+                font.bold: true
+                color: "darkred"
+                visible: !countryCombobox.isValueValid
+                verticalAlignment: Text.AlignVCenter
+            }
 
             Row {
                 width: parent.width
@@ -49,14 +82,14 @@ SettingsMenu {
                     id: locationCombobox
                     height: parent.height
                     width: parent.width - locationLabel.width - parent.spacing
-                    model: locationFinder.availableLocations
+                    model: locationProxyModel
                     textRole: "name"
                     valueRole: "id"
                     editable: true
 
                     Component.onCompleted: currentIndex = indexOfValue(__private.generalWeatherSettings.locationId)
 
-                    onActivated: __private.generalWeatherSettings.locationId = model.data(model.index(index), LocationListModel.IdRole)
+                    onActivated: __private.generalWeatherSettings.locationId = model.get(index).id
                 }
             }
 
