@@ -6,6 +6,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-fPIC")
 
 set(DATA_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/data)
 set(PROJECT_EXPORT_DIR ${PROJECT_SOURCE_DIR}/export)
@@ -53,9 +54,10 @@ file(GLOB UTILS_DATA
   utils/data/*
 )
 
+add_subdirectory(utils/models/SortFilterProxyModel)
 file(COPY ${UTILS_DATA} DESTINATION ${DATA_OUTPUT_DIR})
 
-add_library(SWSUtilsLib SHARED ${UTILS_SOURCE} ${UTILS_HEADER} )
+add_library(SWSUtilsLib SHARED ${UTILS_SOURCE} ${UTILS_HEADER} $<TARGET_OBJECTS:SortFilterProxyModel>)
 target_link_libraries(SWSUtilsLib
     PRIVATE
     Qt5::Core

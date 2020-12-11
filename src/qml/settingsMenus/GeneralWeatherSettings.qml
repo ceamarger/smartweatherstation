@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import sws.utils 1.0
+import SortFilterProxyModel 0.2
 
 import "../components"
 
@@ -15,6 +16,16 @@ SettingsMenu {
             id: __private
 
             readonly property var generalWeatherSettings: weather.data.settings.generalWeatherSettings
+        }
+
+        SortFilterProxyModel {
+            id: citiesProxyModel
+            sourceModel: locationFinder.availableLocations
+            filters: RegExpFilter {
+                roleName: "country"
+                pattern: "*"
+                caseSensitivity: Qt.CaseInsensitive
+            }
         }
 
         Column {
