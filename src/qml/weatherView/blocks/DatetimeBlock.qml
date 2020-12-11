@@ -21,7 +21,10 @@ Item {
 
         SWSText {
             id: locationText
-            text: locationFinder.fromLocationId(__private.generalWeatherSettings.locationId).name
+            text: {
+                var location = locationFinder.fromLocationId(__private.generalWeatherSettings.locationId)
+                return location ? location.name : qsTr("Where are you ?")
+            }
             font.pixelSize: 20
             font.bold: true
             horizontalAlignment: Text.AlignHCenter

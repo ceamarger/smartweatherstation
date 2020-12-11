@@ -100,6 +100,7 @@ Q_SIGNALS:
     void filterPatternSyntaxChanged();
     void filterPatternChanged();
     void filterValueChanged();
+    void filterInvalidated();
 
     void sortRoleNameChanged();
     void ascendingSortOrderChanged();

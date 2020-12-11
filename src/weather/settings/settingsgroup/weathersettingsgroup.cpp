@@ -7,7 +7,7 @@ WeatherSettingsGroup::WeatherSettingsGroup(WeatherSettings* settings, QObject* p
 
 int WeatherSettingsGroup::locationId() const
 {
-    return value(WeatherSettingsParameters::LocationId).toInt();
+    return value(WeatherSettingsParameters::LocationId, -1).toInt();
 }
 
 void WeatherSettingsGroup::setLocationId(int newLocationId)

@@ -19,12 +19,25 @@ SettingsMenu {
         }
 
         SortFilterProxyModel {
+            id: countryProxyModel
+            sourceModel: locationFinder.availableCountries
+            sorters: StringSorter { roleName: "name" }
+        }
+
+        SortFilterProxyModel {
             id: locationProxyModel
             sourceModel: locationFinder.availableLocations
             filters: RegExpFilter {
                 roleName: "country"
-                pattern: "^(?!.*Other).*$"
+                pattern: countryCombobox.currentValue ? countryCombobox.currentValue : "$^"
                 caseSensitivity: Qt.CaseSensitive
+            }
+            sorters: StringSorter { roleName: "name" }
+
+            onFilterInvalidated: reloadItemsModel()
+
+            function reloadItemsModel() {
+                locationCombobox.reset()
             }
         }
 
@@ -49,10 +62,15 @@ SettingsMenu {
                     id: countryCombobox
                     height: parent.height
                     width: parent.width - locationLabel.width - parent.spacing
-                    model: locationFinder.availableCountries
+                    model: countryProxyModel
                     textRole: "name"
-                    valueRole: "id"
+                    valueRole: "alpha2Code"
                     editable: true
+
+                    Component.onCompleted: {
+                        var locationId = __private.generalWeatherSettings.locationId
+                        currentIndex = locationId >= 0 ? indexOfValue(locationFinder.fromLocationId(locationId).country) : -1
+                    }
                 }
             }
 
@@ -66,9 +84,12 @@ SettingsMenu {
             }
 
             Row {
+                id: locationRow
                 width: parent.width
                 height: 30
                 spacing: 10
+
+                visible: countryCombobox.isValueValid
 
                 SWSText {
                     id: locationLabel
@@ -87,9 +108,13 @@ SettingsMenu {
                     valueRole: "id"
                     editable: true
 
-                    Component.onCompleted: currentIndex = indexOfValue(__private.generalWeatherSettings.locationId)
+                    Component.onCompleted: reset()
 
                     onActivated: __private.generalWeatherSettings.locationId = model.get(index).id
+
+                    function reset() {
+                        currentIndex = indexOfValue(__private.generalWeatherSettings.locationId)
+                    }
                 }
             }
 
@@ -98,7 +123,7 @@ SettingsMenu {
                 text: qsTr("/!\ Uknown city. Please enter a valid one.")
                 font.bold: true
                 color: "darkred"
-                visible: !locationCombobox.isValueValid
+                visible: locationRow.visible && !locationCombobox.isValueValid
                 verticalAlignment: Text.AlignVCenter
             }
         }

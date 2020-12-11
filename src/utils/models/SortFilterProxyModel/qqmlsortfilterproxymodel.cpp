@@ -402,8 +402,10 @@ void QQmlSortFilterProxyModel::queueInvalidateFilter()
 void QQmlSortFilterProxyModel::invalidateFilter()
 {
     m_invalidateFilterQueued = false;
-    if (m_completed && !m_invalidateQueued)
+    if (m_completed && !m_invalidateQueued) {
         QSortFilterProxyModel::invalidateFilter();
+        Q_EMIT filterInvalidated();
+    }
 }
 
 void QQmlSortFilterProxyModel::queueInvalidate()
