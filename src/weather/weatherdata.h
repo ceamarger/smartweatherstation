@@ -54,7 +54,9 @@ private:
     void setSunsetTime(QTime sunsetTime);
     void setIndoorTemperature(quint16 indoorTemperature);
 
+    // NOTE (camar) : Maybe better to separate outdoor and indoor data
     // outdoor
+    AbstractWeatherAPIAccess* m_api = nullptr;
     quint16 m_outdoorTemperature = 0; // centiKelvin (°K * 100)
     quint8 m_humidityPercentage = 0;
     QTime m_sunriseTime = QTime(0, 0);
@@ -64,7 +66,6 @@ private:
     quint16 m_indoorTemperature = 0; // centiKelvin (°K * 100)
 
     WeatherSettings* m_settings = nullptr;
-    AbstractWeatherAPIAccess* m_api = nullptr;
 };
 
 #endif // WEATHERDATA_H

@@ -12,15 +12,11 @@
 class OpenWeatherMapAccess : public AbstractWeatherAPIAccess {
     Q_OBJECT
 
-    Q_PROPERTY(QString appId READ appId CONSTANT)
-
 public:
     explicit OpenWeatherMapAccess(WeatherSettings* settings, QObject* parent = nullptr);
     ~OpenWeatherMapAccess() override {}
 
     void setRefreshInterval(std::chrono::seconds seconds);
-
-    const QString appId() const;
 
 private slots:
     void requestData() override;
@@ -32,12 +28,6 @@ private:
 
     static std::chrono::seconds RefreshInterval;
 };
-
-namespace OpenWeatherMapSettingsParameters {
-
-static const QString GroupName = "OWMSettings";
-static const QString AppId = "appId";
-}
 
 namespace OpenWeatherMapAccessKeys {
 

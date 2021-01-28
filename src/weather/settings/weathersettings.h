@@ -11,6 +11,7 @@
 
 class TemperatureSettingsGroup;
 class GeneralWeatherSettingsGroup;
+class OpenWeatherMapAPISettingsGroup;
 
 /*!
  * \class WeatherSettings
@@ -24,6 +25,7 @@ class WeatherSettings : public QObject {
 
     Q_PROPERTY(SettingsGroup* temperatureSettings READ temperatureSettings CONSTANT)
     Q_PROPERTY(SettingsGroup* generalWeatherSettings READ generalWeatherSettings CONSTANT)
+    Q_PROPERTY(SettingsGroup* openWeatherMapAPISettings READ openWeatherMapAPISettings CONSTANT)
 
 public:
     explicit WeatherSettings(const QString& filename, QObject* parent = nullptr);
@@ -34,6 +36,7 @@ public:
 
     TemperatureSettingsGroup* temperatureSettings();
     GeneralWeatherSettingsGroup* generalWeatherSettings();
+    OpenWeatherMapAPISettingsGroup* openWeatherMapAPISettings();
 
 signals:
     void apiUsedParameterChanged();

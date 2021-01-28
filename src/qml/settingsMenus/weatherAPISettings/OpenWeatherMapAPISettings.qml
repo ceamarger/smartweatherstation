@@ -11,6 +11,12 @@ SettingsMenu {
     content: Item {
         anchors.fill: parent
 
+        QtObject {
+            id: __private
+
+            readonly property var openWeatherMapAPISettings: weather.data.settings.openWeatherMapAPISettings
+        }
+
         Row {
             width: parent.width
             height: 30
@@ -27,7 +33,7 @@ SettingsMenu {
             SWSTextField {
                 height: parent.height
                 width: parent.width - appIdLabel.width - parent.spacing
-                text: weather.data.api.appId
+                text: __private.openWeatherMapAPISettings.appId
             }
         }
     }

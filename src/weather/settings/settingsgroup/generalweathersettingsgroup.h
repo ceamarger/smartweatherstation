@@ -11,9 +11,9 @@ class GeneralWeatherSettingsGroup : public SettingsGroup {
 public:
     explicit GeneralWeatherSettingsGroup(WeatherSettings* settings, QObject* parent = nullptr);
 
+    // NOTE (camar) : locationId is the ID of the location contained in citylist.json file
     int locationId() const;
 
-    // NOTE (camar) : locationId is the ID of the location contained in citylist.json file
     void setLocationId(int newLocationId);
 
 signals:

@@ -28,4 +28,5 @@ void SettingsGroup::setValue(const QString& key, const QVariant& value)
 void SettingsGroup::setValue(const QString& group, const QString& key, const QVariant& value)
 {
     m_settings->setValue(group, key, value);
+    emit settingsGroupUpdated();
 }

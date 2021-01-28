@@ -25,6 +25,7 @@ public:
     void setValue(const QString& group, const QString& key, const QVariant& value);
 
 signals:
+    void settingsGroupUpdated();
 
 protected:
     QString m_name;
