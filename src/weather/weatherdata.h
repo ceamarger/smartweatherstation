@@ -21,7 +21,7 @@ struct OutdoorData {
 
 struct IndoorData {
     SensorsDataSubscriber* sensorsSubscriber = nullptr;
-    quint16 temperature = 0; // centiKelvin (°K * 100)
+    std::optional<quint16> temperature = std::nullopt; // centiKelvin (°K * 100)
 };
 
 /*!
@@ -36,6 +36,7 @@ class WeatherData : public QObject {
     Q_PROPERTY(QTime sunriseTime READ sunriseTime NOTIFY sunriseTimeChanged)
     Q_PROPERTY(QTime sunsetTime READ sunsetTime NOTIFY sunsetTimeChanged)
     Q_PROPERTY(quint16 indoorTemperature READ indoorTemperature NOTIFY indoorTemperatureChanged)
+    Q_PROPERTY(bool hasIndoorTemperature READ hasIndoorTemperature NOTIFY indoorTemperatureChanged)
 
     Q_PROPERTY(AbstractWeatherAPIAccess* api READ api CONSTANT)
     Q_PROPERTY(WeatherSettings* settings READ settings CONSTANT)
@@ -47,8 +48,11 @@ public:
     quint8 humidityPercentage() const { return m_outdoorData.humidityPercentage; }
     QTime sunriseTime() const { return m_outdoorData.sunriseTime; }
     QTime sunsetTime() const { return m_outdoorData.sunsetTime; }
-    quint16 indoorTemperature() const { return m_indoorData.temperature; }
     AbstractWeatherAPIAccess* api() const { return m_outdoorData.api; }
+
+    quint16 indoorTemperature() const { return m_indoorData.temperature.value_or(0); }
+    bool hasIndoorTemperature() const { return m_indoorData.temperature.has_value(); }
+
     WeatherSettings* settings() const { return m_settings; }
 
 signals:

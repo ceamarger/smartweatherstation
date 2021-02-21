@@ -16,6 +16,8 @@ Item {
 
         readonly property var weatherData: weather.data
         readonly property var temperatureSettings: weather.data.settings.temperatureSettings
+
+        readonly property string noTemperatureString: " - "
     }
 
     Row {
@@ -24,10 +26,18 @@ Item {
 
         SWSText {
             id: indoorTemperatureText
-            text: TemperatureConverter.convert(__private.weatherData.indoorTemperature / 100,
-                                               TemperatureConverter.Kelvin,
-                                               TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)).toFixed(1)
-                  + __private.temperatureSettings.unitString
+            text: {
+                var convertedTemperatureString =
+                        TemperatureConverter.convert(
+                            __private.weatherData.indoorTemperature / 100,
+                            TemperatureConverter.Kelvin,
+                            TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)
+                            ).toFixed(1)
+
+                return (__private.weatherData.hasIndoorTemperature ? convertedTemperatureString
+                                                                   : __private.noTemperatureString)
+                        + __private.temperatureSettings.unitString
+            }
             font.pixelSize: 25
             font.bold: true
             horizontalAlignment: Text.AlignHCenter
