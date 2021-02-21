@@ -6,6 +6,7 @@
 #include <QTime>
 
 #include "abstractweatherapiaccess.h"
+#include "sensorsdatasubscriber.h"
 #include "settings/weathersettings.h"
 
 // NOTE (camar) : Maybe better to make OutdoorData and IndoorData structs some classes to access it
@@ -19,6 +20,7 @@ struct OutdoorData {
 };
 
 struct IndoorData {
+    SensorsDataSubscriber* sensorsSubscriber = nullptr;
     quint16 temperature = 0; // centiKelvin (°K * 100)
 };
 

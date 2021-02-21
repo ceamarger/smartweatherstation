@@ -39,7 +39,8 @@ add_library(SWSWeatherLib SHARED ${WEATHER_HEADER} ${WEATHER_SOURCE} )
 target_link_libraries(SWSWeatherLib
     PRIVATE
     Qt5::Core
-    Qt5::Quick)
+    Qt5::Quick
+    Qt5::Mqtt)
 
 # -------------- Utils Lib
 file(GLOB UTILS_SOURCE
