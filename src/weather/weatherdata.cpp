@@ -19,8 +19,6 @@ WeatherData::WeatherData(WeatherSettings* settings, QObject* parent)
 
     connect(m_settings, &WeatherSettings::apiUsedParameterChanged, m_outdoorData.api,
         &AbstractWeatherAPIAccess::refresh);
-
-    m_indoorData.sensorsSubscriber = new SensorsDataSubscriber(this);
 }
 
 void WeatherData::setOutdoorTemperature(quint16 outdoorTemperature)

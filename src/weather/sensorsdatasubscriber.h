@@ -4,25 +4,28 @@
 #include <QObject>
 #include <QtMqtt/QMqttClient>
 
+#include "messages/message.h"
+
 class SensorsDataSubscriber : public QObject {
     Q_OBJECT
 
 public:
     enum class State { Disconnected, Connecting, Connected };
-    enum class DataType { Unknown, Temperature, Humidity };
-    Q_ENUM(DataType)
+    Q_ENUM(State)
 
     explicit SensorsDataSubscriber(QObject* parent = nullptr);
     ~SensorsDataSubscriber();
 
     State state() const;
 
+signals:
+    void sensorDataReceived(const Message& message);
+
 private slots:
     void makeDefaultSubscription() const;
-    void parseReceivedMessage(const QByteArray& message, const QMqttTopicName& topic) const;
+    void parseReceivedMessage(const QByteArray& message, const QMqttTopicName& topic);
 
 private:
-    DataType topicNameToDataType(const QMqttTopicName& topic) const;
     bool connectClient() const;
 
     QMqttClient* m_mqttClient = nullptr;

@@ -14,6 +14,8 @@ const QString Weather::WeatherSettingsFileName = "WeatherSettings";
 Weather::Weather(QObject* parent)
     : Weather(WeatherSettingsFileName, parent)
 {
+    connect(&m_sensorsSubscriber, &SensorsDataSubscriber::sensorDataReceived, &m_messageProcessor,
+        &MessageProcessor::processMessage);
 }
 
 /*!

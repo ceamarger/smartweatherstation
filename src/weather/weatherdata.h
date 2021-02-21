@@ -6,7 +6,6 @@
 #include <QTime>
 
 #include "abstractweatherapiaccess.h"
-#include "sensorsdatasubscriber.h"
 #include "settings/weathersettings.h"
 
 // NOTE (camar) : Maybe better to make OutdoorData and IndoorData structs some classes to access it
@@ -20,7 +19,6 @@ struct OutdoorData {
 };
 
 struct IndoorData {
-    SensorsDataSubscriber* sensorsSubscriber = nullptr;
     std::optional<quint16> temperature = std::nullopt; // centiKelvin (°K * 100)
 };
 
@@ -55,6 +53,12 @@ public:
 
     WeatherSettings* settings() const { return m_settings; }
 
+    void setOutdoorTemperature(quint16 outdoorTemperature);
+    void setHumidityPercentage(quint8 humidityPercentage);
+    void setSunriseTime(QTime sunriseTime);
+    void setSunsetTime(QTime sunsetTime);
+    void setIndoorTemperature(quint16 indoorTemperature);
+
 signals:
     void outdoorTemperatureChanged();
     void humidityPercentageChanged();
@@ -67,12 +71,6 @@ private slots:
 
 private:
     void setAPI(AbstractWeatherAPIAccess* api);
-
-    void setOutdoorTemperature(quint16 outdoorTemperature);
-    void setHumidityPercentage(quint8 humidityPercentage);
-    void setSunriseTime(QTime sunriseTime);
-    void setSunsetTime(QTime sunsetTime);
-    void setIndoorTemperature(quint16 indoorTemperature);
 
     OutdoorData m_outdoorData;
     IndoorData m_indoorData;

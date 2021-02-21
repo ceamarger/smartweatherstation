@@ -28,12 +28,16 @@ target_link_libraries(SWSCoreLib
 file(GLOB WEATHER_SOURCE
     weather/*.cpp
     weather/settings/*.cpp
-    weather/settings/settingsgroup/*.cpp)
+    weather/settings/settingsgroup/*.cpp
+    weather/messages/*.cpp
+    weather/messages/operators/*.cpp)
 
 file(GLOB WEATHER_HEADER
     weather/*.h
     weather/settings/*.h
-    weather/settings/settingsgroup/*.h)
+    weather/settings/settingsgroup/*.h
+    weather/messages/*.h
+    weather/messages/operators/*.h)
 
 add_library(SWSWeatherLib SHARED ${WEATHER_HEADER} ${WEATHER_SOURCE} )
 target_link_libraries(SWSWeatherLib

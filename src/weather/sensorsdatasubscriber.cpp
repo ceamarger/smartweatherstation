@@ -32,35 +32,28 @@ void SensorsDataSubscriber::makeDefaultSubscription() const
 {
     using namespace SensorsTopics;
     if (!m_mqttClient->subscribe(FullSensorsGroup)) {
-        qDebug() << "Could not subscribe. Is there a valid connection?";
+        qDebug() << "Could not subscribe.";
     }
 }
 
 void SensorsDataSubscriber::parseReceivedMessage(
-    const QByteArray& message, const QMqttTopicName& topic) const
+    const QByteArray& message, const QMqttTopicName& topic)
 {
-    auto type = topicNameToDataType(topic);
+    using MessageType = Message::MessageType;
+
+    auto type = Message::mqttTopicNameToMessageType(topic);
     switch (type) {
-    case DataType::Temperature:
-        qDebug() << "Temperature:" << message;
+    case MessageType::Temperature:
+        qDebug() << type << message;
+        emit sensorDataReceived(Message(type, message));
         break;
-    case DataType::Unknown:
+    case MessageType::Unknown:
         qDebug() << "Unknown topic:" << topic.name();
         break;
     default:
         qDebug() << "Not supported:" << type;
         break;
     }
-}
-
-auto SensorsDataSubscriber::topicNameToDataType(const QMqttTopicName& topic) const -> DataType
-{
-    if (topic.name() == SensorsTopics::Temperature)
-        return DataType::Temperature;
-    else if (topic.name() == SensorsTopics::Humidity)
-        return DataType::Humidity;
-
-    return DataType::Unknown;
 }
 
 bool SensorsDataSubscriber::connectClient() const
