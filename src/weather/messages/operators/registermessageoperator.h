@@ -1,5 +1,5 @@
-#ifndef TEMPERATUREMESSAGEOPERATOR_H
-#define TEMPERATUREMESSAGEOPERATOR_H
+#ifndef REGISTERMESSAGEOPERATOR_H
+#define REGISTERMESSAGEOPERATOR_H
 
 #include <QObject>
 
@@ -7,10 +7,10 @@
 #include "../message.h"
 #include "messageoperator.h"
 
-class TemperatureMessageOperator : public MessageOperator {
+class RegisterMessageOperator : public MessageOperator {
     Q_OBJECT
 public:
-    explicit TemperatureMessageOperator(WeatherData* weatherData, QObject* parent = nullptr);
+    explicit RegisterMessageOperator(WeatherData* weatherData, QObject* parent = nullptr);
 
     void operate(const Message& message) override;
     bool isValid(const Message& message) override;
@@ -19,4 +19,4 @@ private:
     WeatherData* m_weatherData = nullptr;
 };
 
-#endif // TEMPERATUREMESSAGEOPERATOR_H
+#endif // REGISTERMESSAGEOPERATOR_H

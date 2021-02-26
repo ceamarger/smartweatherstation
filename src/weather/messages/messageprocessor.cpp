@@ -1,5 +1,6 @@
 #include "messageprocessor.h"
 
+#include "operators/registermessageoperator.h"
 #include "operators/temperaturemessageoperator.h"
 
 MessageProcessor::MessageProcessor(WeatherData* weatherData, QObject* parent)
@@ -24,4 +25,6 @@ void MessageProcessor::populateMessageOperators()
     using MessageType = Message::MessageType;
     m_messageOperators.insert(
         MessageType::Temperature, new TemperatureMessageOperator(m_weatherData, this));
+    m_messageOperators.insert(
+        MessageType::Register, new RegisterMessageOperator(m_weatherData, this));
 }

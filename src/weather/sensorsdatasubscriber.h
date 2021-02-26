@@ -19,7 +19,7 @@ public:
     State state() const;
 
 signals:
-    void sensorDataReceived(const Message& message);
+    void sensorMessageReceived(const Message& message);
 
 private slots:
     void makeDefaultSubscription() const;
@@ -34,7 +34,9 @@ private:
 namespace SensorsTopics {
 static const QString SensorsGroup = "sensors";
 static const QString FullSensorsGroup = SensorsGroup + "/+";
-static const QString Temperature = SensorsGroup + "/temperature";
-static const QString Humidity = SensorsGroup + "/humidity";
+static const QString TemperatureCommand = SensorsGroup + "/temperature";
+static const QString HumidityCommand = SensorsGroup + "/humidity";
+
+static const QString RegisterCommand = SensorsGroup + "/register";
 }
 #endif // SENSORSDATASUBSCRIBER_H

@@ -7,7 +7,7 @@
 class Message : public QObject {
     Q_OBJECT
 public:
-    enum class MessageType { Unknown, Temperature, Humidity };
+    enum class MessageType { Unknown, Temperature, Humidity, Register };
     Q_ENUM(MessageType)
 
     explicit Message(MessageType type, const QByteArray& message, QObject* parent = nullptr);

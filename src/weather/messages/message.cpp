@@ -11,10 +11,12 @@ Message::Message(MessageType type, const QByteArray& message, QObject* parent)
 
 auto Message::mqttTopicNameToMessageType(const QMqttTopicName& topic) -> MessageType
 {
-    if (topic.name() == SensorsTopics::Temperature)
+    if (topic.name() == SensorsTopics::TemperatureCommand)
         return MessageType::Temperature;
-    else if (topic.name() == SensorsTopics::Humidity)
+    else if (topic.name() == SensorsTopics::HumidityCommand)
         return MessageType::Humidity;
+    else if (topic.name() == SensorsTopics::RegisterCommand)
+        return MessageType::Register;
 
     return MessageType::Unknown;
 }

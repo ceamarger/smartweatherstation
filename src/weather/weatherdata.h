@@ -6,6 +6,7 @@
 #include <QTime>
 
 #include "abstractweatherapiaccess.h"
+#include "indoorweatherdata.h"
 #include "settings/weathersettings.h"
 
 // NOTE (camar) : Maybe better to make OutdoorData and IndoorData structs some classes to access it
@@ -16,10 +17,6 @@ struct OutdoorData {
     quint8 humidityPercentage = 0;
     QTime sunriseTime = QTime(0, 0);
     QTime sunsetTime = QTime(0, 0);
-};
-
-struct IndoorData {
-    std::optional<quint16> temperature = std::nullopt; // centiKelvin (°K * 100)
 };
 
 /*!
@@ -33,9 +30,7 @@ class WeatherData : public QObject {
     Q_PROPERTY(quint8 humidityPercentage READ humidityPercentage NOTIFY humidityPercentageChanged)
     Q_PROPERTY(QTime sunriseTime READ sunriseTime NOTIFY sunriseTimeChanged)
     Q_PROPERTY(QTime sunsetTime READ sunsetTime NOTIFY sunsetTimeChanged)
-    Q_PROPERTY(quint16 indoorTemperature READ indoorTemperature NOTIFY indoorTemperatureChanged)
-    Q_PROPERTY(bool hasIndoorTemperature READ hasIndoorTemperature NOTIFY indoorTemperatureChanged)
-
+    Q_PROPERTY(IndoorWeatherData* indoorWeatherData READ indoorWeatherData CONSTANT)
     Q_PROPERTY(AbstractWeatherAPIAccess* api READ api CONSTANT)
     Q_PROPERTY(WeatherSettings* settings READ settings CONSTANT)
 
@@ -48,8 +43,7 @@ public:
     QTime sunsetTime() const { return m_outdoorData.sunsetTime; }
     AbstractWeatherAPIAccess* api() const { return m_outdoorData.api; }
 
-    quint16 indoorTemperature() const { return m_indoorData.temperature.value_or(0); }
-    bool hasIndoorTemperature() const { return m_indoorData.temperature.has_value(); }
+    IndoorWeatherData* indoorWeatherData() { return &m_indoorWeatherData; }
 
     WeatherSettings* settings() const { return m_settings; }
 
@@ -57,14 +51,12 @@ public:
     void setHumidityPercentage(quint8 humidityPercentage);
     void setSunriseTime(QTime sunriseTime);
     void setSunsetTime(QTime sunsetTime);
-    void setIndoorTemperature(quint16 indoorTemperature);
 
 signals:
     void outdoorTemperatureChanged();
     void humidityPercentageChanged();
     void sunriseTimeChanged();
     void sunsetTimeChanged();
-    void indoorTemperatureChanged();
 
 private slots:
     void parseReceivedJsonData(QJsonDocument jsonData);
@@ -73,7 +65,7 @@ private:
     void setAPI(AbstractWeatherAPIAccess* api);
 
     OutdoorData m_outdoorData;
-    IndoorData m_indoorData;
+    IndoorWeatherData m_indoorWeatherData;
 
     WeatherSettings* m_settings = nullptr;
 };

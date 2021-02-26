@@ -44,8 +44,9 @@ void SensorsDataSubscriber::parseReceivedMessage(
     auto type = Message::mqttTopicNameToMessageType(topic);
     switch (type) {
     case MessageType::Temperature:
+    case MessageType::Register:
         qDebug() << type << message;
-        emit sensorDataReceived(Message(type, message));
+        emit sensorMessageReceived(Message(type, message));
         break;
     case MessageType::Unknown:
         qDebug() << "Unknown topic:" << topic.name();
