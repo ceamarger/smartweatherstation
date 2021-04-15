@@ -5,15 +5,10 @@ import "../../components"
 
 import sws.utils 1.0
 
-Item {
+Block {
     id: root
-    width: childrenRect.width
-    height: childrenRect.height
 
     readonly property int minimalHeight: outdoorTemperatureRow.height
-
-    property alias sunEventsInfoVisible: sunEventsItem.visible
-    property alias humidityInfoVIsible: humidityRow.visible
 
     QtObject {
         id: __private
@@ -54,11 +49,13 @@ Item {
             id: sunEventsItem
             width: outdoorTemperatureRow.width
             height: childrenRect.height
+            visible: opacity
 
-            opacity: visible ? 1.0 : 0.0
+            opacity: !reduced ? 1.0 : 0.0
             Behavior on opacity {
                 NumberAnimation {
                     duration: Constants.displayAnimationDuration
+                    easing.type: !root.reduced ? Easing.OutSine : Easing.InSine
                 }
             }
 
@@ -109,11 +106,13 @@ Item {
             id: humidityRow
             anchors.left: parent.left
             spacing: 10
+            visible: opacity
 
-            opacity: visible ? 1.0 : 0.0
+            opacity: !reduced ? 1.0 : 0.0
             Behavior on opacity {
                 NumberAnimation {
                     duration: Constants.displayAnimationDuration
+                    easing.type: !root.reduced ? Easing.OutSine : Easing.InSine
                 }
             }
 
