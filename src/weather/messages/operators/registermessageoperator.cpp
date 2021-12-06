@@ -11,7 +11,7 @@ void RegisterMessageOperator::operate(const Message& message)
     if (!isValid(message))
         return;
 
-    m_weatherData->indoorWeatherData()->registerRoom(QString::fromLocal8Bit(message.message()));
+    emit m_weatherData->indoorWeatherData()->newRoomReceived(QString::fromLocal8Bit(message.message()));
 }
 
 bool RegisterMessageOperator::isValid(const Message& message)

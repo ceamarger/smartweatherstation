@@ -20,53 +20,104 @@ Block {
         readonly property string noTemperatureString: " - "
     }
 
+    onReducedChanged: {
+        if (reduced) reduceAnimation.start()
+        else enhanceAnimation.start()
+    }
+
+    // Animations are made sequentialy instead of parallel when using "Behavior" component,
+    // so this is why we have those "ParallelAnimation" components
+    ParallelAnimation {
+        id: reduceAnimation
+        NumberAnimation {
+            target: mainRoomDelegate.roomNameTextItem
+            duration: Constants.displayAnimationDuration
+            property: "opacity"
+            to: 0
+            easing.type: Easing.InSine
+        }
+
+        NumberAnimation {
+            target: mainRoomDelegate
+            duration: Constants.displayAnimationDuration
+            property: "height"
+            to: mainRoomDelegate.reducedHeight
+            easing.type: Easing.InSine
+        }
+    }
+
+    ParallelAnimation {
+        id: enhanceAnimation
+        NumberAnimation {
+            target: mainRoomDelegate.roomNameTextItem
+            duration: Constants.displayAnimationDuration
+            property: "opacity"
+            to: mainRoomDelegate.roomNameTextItem.maxOpacity
+            easing.type: Easing.OutSine
+        }
+        NumberAnimation {
+            target: mainRoomDelegate
+            duration: Constants.displayAnimationDuration
+            property: "height"
+            to: mainRoomDelegate.extendedHeight
+            easing.type: Easing.OutSine
+        }
+    }
+
     Column {
         id: indoorTemperatureColumn
-        spacing: 10
+        spacing: 20
 
         Row {
             id: indoorTemperatureRow
+            height: indoorWeatherImage.height
             spacing: 15
 
-            SWSText {
-                id: indoorTemperatureText
-                text: {
-                    var hasTemperature = __private.mainRoom && __private.mainRoom.hasTemperature
-                    var convertedTemperatureString =
-                            hasTemperature ? TemperatureConverter.convert(
-                                                 __private.indoorWeatherData.mainRoom.temperature / 100,
-                                                 TemperatureConverter.Kelvin,
-                                                 TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)
-                                                 ).toFixed(1)
-                                           : __private.noTemperatureString
+            IndoorWeatherDelegate {
+                id: mainRoomDelegate
 
-                    return convertedTemperatureString + __private.temperatureSettings.unitString
-                }
-                font.pixelSize: 25
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                property var room: __private.mainRoom
+
                 anchors.verticalCenter: parent.verticalCenter
+
+                roomHasTemperature: room && room.hasTemperature
+                roomTemperature: room ? room.temperature : 0
+                roomName: room ? room.name : ""
+                nameVisible: !reduced
             }
 
             Image {
                 id: indoorWeatherImage
                 source: "/weather/indoor_icon.png"
-                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        Text {
-            text: "+ " + qsTr("Touch to see all rooms")
-            font.pixelSize: 9
-            anchors.horizontalCenter: parent.horizontalCenter
-            visible: opacity
+        Repeater {
+            model: __private.indoorWeatherData.rooms
+            delegate: IndoorWeatherDelegate {
+                id: secondaryRoomDelegate
 
-            opacity: !reduced ? 0.6 : 0.0
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: Constants.displayAnimationDuration
-                    easing.type: !root.reduced ? Easing.OutSine : Easing.InSine
+                roomHasTemperature: hasTemperature
+                roomTemperature: temperature
+                roomName: name
+                nameVisible: !reduced
+
+                property real maxOpacity: 0.8
+
+                visible: opacity > .0 && __private.mainRoom && uuid !== __private.mainRoom.uuid
+                opacity: !reduced ? maxOpacity : 0.0
+
+                anchors.right: indoorTemperatureRow.right
+                anchors.left: indoorTemperatureRow.left
+                anchors.rightMargin: 10
+
+                roomNameTextItem.maximumLineCount: 1
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: Constants.displayAnimationDuration
+                        easing.type: !root.reduced ? Easing.OutSine : Easing.InSine
+                    }
                 }
             }
         }

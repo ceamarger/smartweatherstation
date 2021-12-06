@@ -44,4 +44,14 @@ Window {
 
         onExitClicked: hideSettings()
     }
+
+    RegisterRoomPopup {
+        anchors.centerIn: parent
+
+        onOpened: {
+            mainAppWindow.hideSettings()
+            blurBackground.blur()
+        }
+        onClosed: blurBackground.unblur()
+    }
 }
