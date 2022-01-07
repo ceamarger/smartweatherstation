@@ -80,18 +80,53 @@ file(GLOB APP_SOURCE
 file(GLOB APP_HEADER
     *.h)
 
-add_executable(${PROJECT_NAME} ${APP_HEADER} ${APP_SOURCE} ${QRC_RESSOURCES})
+set(APP_NAME ${PROJECT_NAME})
+add_executable(${APP_NAME} ${APP_HEADER} ${APP_SOURCE} ${QRC_RESSOURCES})
 
 target_compile_definitions(
-    ${PROJECT_NAME}
+    ${APP_NAME}
     PRIVATE
     $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(
-    ${PROJECT_NAME}
+    ${APP_NAME}
     PRIVATE
     SWSCoreLib
     SWSWeatherLib
     SWSUtilsLib
+    Qt5::Core
+    Qt5::Quick)
+
+
+# -------------- Sensors simulator
+set(SIMULATOR_SCRIPTS_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/simulator/scripts)
+
+qt5_add_resources(
+    QRC_SIMULATOR_RESSOURCES
+    simulator/qml/qml_simulator.qrc)
+
+file(GLOB SIMULATOR_SOURCE
+    simulator/*.cpp)
+
+file(GLOB SIMULATOR_HEADER
+    simulator/*.h)
+
+file(GLOB SIMULATOR_SCRIPTS
+    simulator/scripts/*
+)
+
+file(COPY ${SIMULATOR_SCRIPTS} DESTINATION ${SIMULATOR_SCRIPTS_OUTPUT_DIR})
+
+set(SIMULATOR_APP_NAME sensorsSimulator)
+add_executable(${SIMULATOR_APP_NAME} ${SIMULATOR_HEADER} ${SIMULATOR_SOURCE} ${QRC_SIMULATOR_RESSOURCES})
+
+target_compile_definitions(
+    ${SIMULATOR_APP_NAME}
+    PRIVATE
+    $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
+target_link_libraries(
+    ${SIMULATOR_APP_NAME}
+    PRIVATE
     Qt5::Core
     Qt5::Quick)

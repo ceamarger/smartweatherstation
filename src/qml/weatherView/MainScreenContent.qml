@@ -116,6 +116,7 @@ Rectangle {
     Item {
         id: animationInvisibleItem
         height: outdoorWeatherBlock.minimalHeight
+        width : root.width
         anchors.horizontalCenter: root.horizontalCenter
         anchors.verticalCenter: root.verticalCenter
         anchors.margins: __private.defaultBorderMargin
