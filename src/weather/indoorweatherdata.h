@@ -22,7 +22,7 @@ public:
 
     Q_INVOKABLE void registerRoom(const QString& uuid, const QString& name = QString());
 
-    void setMainRoomUuid(const QString& mainRoomUuid);
+    Q_INVOKABLE void setMainRoomUuid(const QString& mainRoomUuid);
     void setTemperature(const QString& uuid, quint16 temperature);
 
     static bool isValidUuid(const QString& uuid);

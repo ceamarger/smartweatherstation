@@ -91,6 +91,7 @@ Rectangle {
     }
 
     MouseArea {
+        id: fullScreenMouseArea
         anchors.fill: parent
         onClicked: root.switchState()
     }
