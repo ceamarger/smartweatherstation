@@ -20,7 +20,6 @@ Item {
     function switchSimulatorOnOff() {
         simulatorOn = !simulatorOn
         uuid = ""
-        console.log("simulator : " + (simulatorOn ? "ON" : "OFF"))
     }
 
     function generateUUID() {
@@ -60,11 +59,6 @@ Item {
             uuidMessage = "UUID: " + uuid
             if (uuid)
                 scriptLauncher.sendRegisterCommand(generatedUUID)
-        }
-
-        function onRegisterCommandFinished(output) {
-            console.log(output)
-            sendTemperature()
         }
 
         function onScriptFailed(scriptType) {
@@ -116,7 +110,10 @@ Item {
         text: simulatorOn ? "Off" : "On"
         width: 30
         height: 30
-        palette.button: simulatorOn ? "red" : "green"
+
+        palette {
+            button: simulatorOn ? "red" : "green"
+        }
 
         anchors.top: screen.bottom
         anchors.left: parent.left

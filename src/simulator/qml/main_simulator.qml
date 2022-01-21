@@ -13,16 +13,14 @@ Window {
 
     color: "grey"
 
+    readonly property int maxSimulatorNumber: 5
     property int simulatorNumber: 1
 
     Row {
         id: simulatorsRow
         width: childrenRect.width
 
-        Repeater {
-            model: simulatorNumber
-            delegate: SimulatorItem {}
-        }
+        SimulatorItem{}
     }
 
     Button {
@@ -35,8 +33,16 @@ Window {
         width: 20
         height: 20
 
-        enabled: simulatorNumber < 5
+        enabled: simulatorNumber < maxSimulatorNumber
 
-        onClicked: simulatorNumber++
+        onClicked: {
+            var component = Qt.createComponent("SimulatorItem.qml");
+            var simulatorSprite = component.createObject(simulatorsRow);
+
+            if (simulatorSprite === null)
+                console.log("Error creating object");
+            else
+                simulatorNumber++
+        }
     }
 }
