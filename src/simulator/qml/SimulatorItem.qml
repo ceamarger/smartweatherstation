@@ -9,8 +9,19 @@ Item {
     width: 200
     height: 350
 
-    property bool simulatorOn: false
-    readonly property bool connected: uuid
+    readonly property string offState: "off"
+    readonly property string onState: "on"
+    readonly property string connectingState: "connecting"
+    readonly property string connectedState: "connected"
+    states: [
+        State { name: offState },
+        State { name: onState },
+        State { name: connectingState },
+        State { name: connectedState }
+    ]
+    state: offState
+
+    readonly property bool simulatorOn: state !== offState
 
     property string uuid: ""
     property real celsiusTemperature: 0
@@ -18,10 +29,20 @@ Item {
     property alias uuidMessage: uuidText.text
 
     function switchSimulatorOnOff() {
-        simulatorOn = !simulatorOn
+        switch (root.state) {
+        case offState:
+            if (uuid)
+                root.state = root.connectedState
+            else
+                root.state = root.onState
+            break;
+        default:
+            root.state = root.offState
+        }
     }
 
     function generateUUID() {
+        root.state = root.connectingState
         scriptLauncher.generateUUID()
     }
 
@@ -43,7 +64,7 @@ Item {
     Connections {
         target: scriptLauncher
         function onScriptStarted() {
-            if (uuid !== "")
+            if (uuid !== "" || root.state !== root.connectingState)
                 return
 
             if (scriptLauncher.lastScriptLaunched === ScriptLauncher.UUIDGeneration)
@@ -51,13 +72,15 @@ Item {
         }
 
         function onUuidGenerationFinished(generatedUUID) {
-            if (uuid !== "")
+            if (uuid !== ""  || root.state !== root.connectingState)
                 return
 
             uuid = generatedUUID
             uuidMessage = "UUID: " + uuid
-            if (uuid)
+            if (uuid) {
+                root.state = root.connectedState
                 scriptLauncher.sendRegisterCommand(generatedUUID)
+            }
         }
 
         function onScriptFailed(scriptType) {
@@ -71,11 +94,11 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.margins: 5
+        anchors.margins: 10
         height: 50
         color: enabled ? "lightblue" : "black"
 
-        enabled: simulatorOn
+        enabled: root.simulatorOn
         onEnabledChanged: if (enabled && !uuid) uuidMessage = "No UUID. Please push \"Connect\"."
 
         Text {
@@ -87,7 +110,7 @@ Item {
                 margins: 3
             }
             height: parent.height / 4
-            wrapMode: Text.Wrap
+            wrapMode: Text.WrapAnywhere
             font.pixelSize: 10
             visible: parent.enabled
         }
@@ -99,24 +122,24 @@ Item {
             anchors.right: parent.right
             anchors.margins: 3
             font.pixelSize: 30
-            visible: parent.enabled && connected
+            visible: parent.enabled && root.state === connectedState
             verticalAlignment: Text.AlignVCenter
         }
     }
 
     RoundButton {
         id: onOffButton
-        text: simulatorOn ? "Off" : "On"
+        text: root.simulatorOn ? "Off" : "On"
         width: 30
         height: 30
 
         palette {
-            button: simulatorOn ? "red" : "green"
+            button: root.simulatorOn ? "red" : "green"
         }
 
         anchors.top: screen.bottom
         anchors.left: parent.left
-        anchors.margins: 5
+        anchors.margins: 10
 
         contentItem: Text {
                 text: onOffButton.text
@@ -134,9 +157,9 @@ Item {
         text: "Connect"
         anchors.top: onOffButton.bottom
         anchors.left: parent.left
-        anchors.margins: 5
+        anchors.margins: 10
 
-        enabled: simulatorOn && !connected
+        enabled: root.state === root.onState
 
         onClicked: generateUUID()
     }
@@ -145,11 +168,11 @@ Item {
         anchors.top: connectButton.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 5
+        anchors.margins: 10
 
         height: temperatureButtons.height + 10
 
-        enabled: connected
+        enabled: root.state === root.connectedState
 
         color: "transparent"
         border.color: "black"
