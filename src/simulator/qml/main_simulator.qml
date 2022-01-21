@@ -13,7 +13,7 @@ Window {
 
     color: "grey"
 
-    readonly property int maxSimulatorNumber: 5
+    readonly property int maxSimulatorNumber: 6
     property int simulatorNumber: 1
 
     Row {
@@ -24,6 +24,7 @@ Window {
     }
 
     Button {
+        id: addSimulatorButton
         text: "+"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -44,5 +45,14 @@ Window {
             else
                 simulatorNumber++
         }
+    }
+
+    Text {
+        text: simulatorNumber + "/" + maxSimulatorNumber
+        font.pixelSize: 10
+        anchors.verticalCenter: addSimulatorButton.verticalCenter
+        anchors.left: addSimulatorButton.right
+        anchors.bottomMargin: 5
+        anchors.leftMargin: 5
     }
 }
