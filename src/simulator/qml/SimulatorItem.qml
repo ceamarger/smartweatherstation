@@ -19,7 +19,6 @@ Item {
 
     function switchSimulatorOnOff() {
         simulatorOn = !simulatorOn
-        uuid = ""
     }
 
     function generateUUID() {
@@ -74,10 +73,10 @@ Item {
         anchors.top: parent.top
         anchors.margins: 5
         height: 50
-        color: enabled ? "blue" : "black"
+        color: enabled ? "lightblue" : "black"
 
         enabled: simulatorOn
-        onEnabledChanged: if (enabled) uuidMessage = "No UUID. Please push \"Connect\"."
+        onEnabledChanged: if (enabled && !uuid) uuidMessage = "No UUID. Please push \"Connect\"."
 
         Text {
             id: uuidText
@@ -88,7 +87,7 @@ Item {
                 margins: 3
             }
             height: parent.height / 4
-            elide: Text.ElideRight
+            wrapMode: Text.Wrap
             font.pixelSize: 10
             visible: parent.enabled
         }
@@ -161,10 +160,30 @@ Item {
             width: parent.width
             anchors.verticalCenter: parent.verticalCenter
             spacing: 5
+
             Text {
                 text: qsTr("Temperature")
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
+            }
+
+            Row {
+                spacing: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Text {
+                    text: "0.1"
+                    width: 30
+                    font.pixelSize: 10
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                Text {
+                    text: "1"
+                    width: 30
+                    font.pixelSize: 10
+                    horizontalAlignment: Text.AlignHCenter
+                }
             }
 
             Row {
