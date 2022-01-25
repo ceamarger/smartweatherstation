@@ -48,7 +48,6 @@ void OpenWeatherMapAccess::requestData()
 
     QString urlString = "http://api.openweathermap.org/data/2.5/";
     urlString.append("weather?id=" + locationId);
-    // AppId should be 4a987c6635e6fe3bc8b97cfd6fdda8f1 (used for test only) but needs settings menu
     urlString.append("&appid=" + appId);
     QUrl url(urlString);
 
