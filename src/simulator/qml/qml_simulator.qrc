@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main_simulator.qml</file>
+        <file>SimulatorItem.qml</file>
+    </qresource>
+</RCC>

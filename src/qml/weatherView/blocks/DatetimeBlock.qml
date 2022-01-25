@@ -4,10 +4,8 @@ import sws.utils 1.0
 
 import "../../components"
 
-Item {
+Block {
     id: root
-    width: childrenRect.width
-    height: childrenRect.height
 
     QtObject {
         id: __private

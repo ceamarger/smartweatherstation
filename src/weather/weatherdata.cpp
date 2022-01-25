@@ -17,67 +17,58 @@ WeatherData::WeatherData(WeatherSettings* settings, QObject* parent)
     // TODO (camar) : manage api change
     setAPI(new OpenWeatherMapAccess(m_settings, this));
 
-    connect(m_settings, &WeatherSettings::apiUsedParameterChanged, m_api,
+    connect(m_settings, &WeatherSettings::apiUsedParameterChanged, m_outdoorData.api,
         &AbstractWeatherAPIAccess::refresh);
 }
 
 void WeatherData::setOutdoorTemperature(quint16 outdoorTemperature)
 {
-    if (m_outdoorTemperature == outdoorTemperature)
+    if (m_outdoorData.temperature == outdoorTemperature)
         return;
 
-    m_outdoorTemperature = outdoorTemperature;
+    m_outdoorData.temperature = outdoorTemperature;
     emit outdoorTemperatureChanged();
 }
 
 void WeatherData::setHumidityPercentage(quint8 humidityPercentage)
 {
-    if (m_humidityPercentage == humidityPercentage)
+    if (m_outdoorData.humidityPercentage == humidityPercentage)
         return;
 
-    m_humidityPercentage = humidityPercentage;
+    m_outdoorData.humidityPercentage = humidityPercentage;
     emit humidityPercentageChanged();
 }
 
 void WeatherData::setSunriseTime(QTime sunriseTime)
 {
-    if (m_sunriseTime == sunriseTime)
+    if (m_outdoorData.sunriseTime == sunriseTime)
         return;
 
-    m_sunriseTime = sunriseTime;
+    m_outdoorData.sunriseTime = sunriseTime;
     emit sunriseTimeChanged();
 }
 
 void WeatherData::setSunsetTime(QTime sunsetTime)
 {
-    if (m_sunsetTime == sunsetTime)
+    if (m_outdoorData.sunsetTime == sunsetTime)
         return;
 
-    m_sunsetTime = sunsetTime;
+    m_outdoorData.sunsetTime = sunsetTime;
     emit sunsetTimeChanged();
-}
-
-void WeatherData::setIndoorTemperature(quint16 indoorTemperature)
-{
-    if (m_indoorTemperature == indoorTemperature)
-        return;
-
-    m_indoorTemperature = indoorTemperature;
-    emit indoorTemperatureChanged();
 }
 
 void WeatherData::setAPI(AbstractWeatherAPIAccess* api)
 {
-    if (m_api == api)
+    if (m_outdoorData.api == api)
         return;
 
-    if (m_api)
-        m_api->deleteLater();
+    if (m_outdoorData.api)
+        m_outdoorData.api->deleteLater();
 
-    m_api = api;
+    m_outdoorData.api = api;
 
-    connect(
-        m_api, &AbstractWeatherAPIAccess::dataUpdated, this, &WeatherData::parseReceivedJsonData);
+    connect(m_outdoorData.api, &AbstractWeatherAPIAccess::dataUpdated, this,
+        &WeatherData::parseReceivedJsonData);
 }
 
 void WeatherData::parseReceivedJsonData(QJsonDocument jsonData)

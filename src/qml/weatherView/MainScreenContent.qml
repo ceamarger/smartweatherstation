@@ -78,18 +78,20 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: __private.defaultBorderMargin
 
-        sunEventsInfoVisible: __private.isCompleteView
-        humidityInfoVIsible: __private.isCompleteView
+        reduced: !__private.isCompleteView
     }
 
     IndoorWeatherBlock {
         id: indoorWeatherBlock
-        anchors.verticalCenter: animationInvisibleItem.verticalCenter
+        anchors.top: animationInvisibleItem.top
         anchors.right: parent.right
         anchors.rightMargin: __private.defaultBorderMargin
+
+        reduced: !__private.isCompleteView
     }
 
     MouseArea {
+        id: fullScreenMouseArea
         anchors.fill: parent
         onClicked: root.switchState()
     }
@@ -115,6 +117,7 @@ Rectangle {
     Item {
         id: animationInvisibleItem
         height: outdoorWeatherBlock.minimalHeight
+        width : root.width
         anchors.horizontalCenter: root.horizontalCenter
         anchors.verticalCenter: root.verticalCenter
         anchors.margins: __private.defaultBorderMargin

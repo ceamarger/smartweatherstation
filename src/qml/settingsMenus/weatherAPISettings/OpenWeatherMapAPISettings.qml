@@ -34,6 +34,8 @@ SettingsMenu {
                 height: parent.height
                 width: parent.width - appIdLabel.width - parent.spacing
                 text: __private.openWeatherMapAPISettings.appId
+
+                onAccepted: __private.openWeatherMapAPISettings.appId = text
             }
         }
     }

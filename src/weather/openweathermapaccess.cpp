@@ -30,7 +30,7 @@ OpenWeatherMapAccess::OpenWeatherMapAccess(WeatherSettings* settings, QObject* p
     m_refreshTimer.setSingleShot(true);
     connect(&m_refreshTimer, &QTimer::timeout, this, &OpenWeatherMapAccess::requestData);
 
-    requestData();
+    OpenWeatherMapAccess::requestData();
 }
 
 /*!

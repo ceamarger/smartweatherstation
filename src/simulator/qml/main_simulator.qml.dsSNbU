@@ -1,0 +1,40 @@
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+
+Window {
+    id: mainAppWindow
+    visible: true
+    width: 200
+    height: 350
+    color: "grey"
+
+    property bool simulatorOn: false
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.leftMargin: 5
+        anchors.rightMargin: 5
+        height: 50
+        color: "blue"
+    }
+
+    RoundButton {
+        text: simulatorOn ? "Off" : "On"
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 30
+        height: 30
+//        radius: width
+//        color: simulatorOn ? "red" : "green"
+
+        background: Rectangle {
+                implicitWidth: 100
+                implicitHeight: 40
+                opacity: enabled ? 1 : 0.3
+                border.color: "black"
+                color: simulatorOn ? "red" : "green"
+            }
+    }
+}

@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "messages/messageprocessor.h"
+#include "sensorsdatasubscriber.h"
 #include "settings/weathersettings.h"
 #include "weatherdata.h"
 
@@ -29,6 +31,9 @@ private:
 
     WeatherSettings* m_settings = nullptr;
     WeatherData* m_data = nullptr;
+
+    SensorsDataSubscriber m_sensorsSubscriber;
+    MessageProcessor m_messageProcessor{ m_data };
 
     static const QString WeatherSettingsFileName;
 };

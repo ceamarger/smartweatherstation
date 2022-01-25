@@ -11,6 +11,7 @@
         <file>SwitchableBlur.qml</file>
         <file alias="SWSTextField.qml">components/SWSTextField.qml</file>
         <file alias="SWSCombobox.qml">components/SWSCombobox.qml</file>
+        <file alias="SWSRadioDelegate.qml">components/SWSRadioDelegate.qml</file>
     </qresource>
     <qresource prefix="/settingsMenus">
         <file alias="SettingsMenuContainer.qml">settingsMenus/SettingsMenuContainer.qml</file>
@@ -19,11 +20,15 @@
         <file alias="weatherAPISettings/OpenWeatherMapAPISettings.qml">settingsMenus/weatherAPISettings/OpenWeatherMapAPISettings.qml</file>
         <file alias="TemperatureSettings.qml">settingsMenus/TemperatureSettings.qml</file>
         <file alias="GeneralWeatherSettings.qml">settingsMenus/GeneralWeatherSettings.qml</file>
+        <file alias="SensorsSettings.qml">settingsMenus/SensorsSettings.qml</file>
     </qresource>
     <qresource prefix="/weatherView">
         <file alias="MainScreenContent.qml">weatherView/MainScreenContent.qml</file>
         <file alias="blocks/DatetimeBlock.qml">weatherView/blocks/DatetimeBlock.qml</file>
         <file alias="blocks/OutdoorWeatherBlock.qml">weatherView/blocks/OutdoorWeatherBlock.qml</file>
         <file alias="blocks/IndoorWeatherBlock.qml">weatherView/blocks/IndoorWeatherBlock.qml</file>
+        <file alias="blocks/Block.qml">weatherView/blocks/Block.qml</file>
+        <file alias="RegisterRoomPopup.qml">weatherView/RegisterRoomPopup.qml</file>
+        <file alias="blocks/IndoorWeatherDelegate.qml">weatherView/blocks/IndoorWeatherDelegate.qml</file>
     </qresource>
 </RCC>

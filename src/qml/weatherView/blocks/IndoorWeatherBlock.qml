@@ -5,40 +5,121 @@ import "../../components"
 
 import sws.utils 1.0
 
-Item {
+Block {
     id: root
-
-    width: childrenRect.width
-    height: childrenRect.height
 
     QtObject {
         id: __private
 
         readonly property var weatherData: weather.data
+        readonly property var indoorWeatherData: weatherData.indoorWeatherData
+        readonly property var mainRoom: indoorWeatherData.mainRoom
+
         readonly property var temperatureSettings: weather.data.settings.temperatureSettings
+
+        readonly property string noTemperatureString: " - "
     }
 
-    Row {
-        id: indoorTemperatureRow
-        spacing: 15
+    onReducedChanged: {
+        if (reduced) reduceAnimation.start()
+        else enhanceAnimation.start()
+    }
 
-        SWSText {
-            id: indoorTemperatureText
-            text: TemperatureConverter.convert(__private.weatherData.indoorTemperature / 100,
-                                               TemperatureConverter.Kelvin,
-                                               TemperatureHelper.settingsUnitToConverterUnit(__private.temperatureSettings.unit)).toFixed(1)
-                  + __private.temperatureSettings.unitString
-            font.pixelSize: 25
-            font.bold: true
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            anchors.verticalCenter: parent.verticalCenter
+    // Animations are made sequentialy instead of parallel when using "Behavior" component,
+    // so this is why we have those "ParallelAnimation" components
+    ParallelAnimation {
+        id: reduceAnimation
+        NumberAnimation {
+            target: mainRoomDelegate.roomNameTextItem
+            duration: Constants.displayAnimationDuration
+            property: "opacity"
+            to: 0
+            easing.type: Easing.InSine
         }
 
-        Image {
-            id: indoorWeatherImage
-            source: "/weather/indoor_icon.png"
-            anchors.verticalCenter: parent.verticalCenter
+        NumberAnimation {
+            target: mainRoomDelegate
+            duration: Constants.displayAnimationDuration
+            property: "height"
+            to: mainRoomDelegate.reducedHeight
+            easing.type: Easing.InSine
+        }
+    }
+
+    ParallelAnimation {
+        id: enhanceAnimation
+        NumberAnimation {
+            target: mainRoomDelegate.roomNameTextItem
+            duration: Constants.displayAnimationDuration
+            property: "opacity"
+            to: mainRoomDelegate.roomNameTextItem.maxOpacity
+            easing.type: Easing.OutSine
+        }
+        NumberAnimation {
+            target: mainRoomDelegate
+            duration: Constants.displayAnimationDuration
+            property: "height"
+            to: mainRoomDelegate.extendedHeight
+            easing.type: Easing.OutSine
+        }
+    }
+
+    Column {
+        id: indoorTemperatureColumn
+        spacing: 20
+
+        Row {
+            id: indoorTemperatureRow
+            height: indoorWeatherImage.height
+            spacing: 15
+
+            IndoorWeatherDelegate {
+                id: mainRoomDelegate
+
+                property var room: __private.mainRoom
+
+                anchors.verticalCenter: parent.verticalCenter
+
+                roomHasTemperature: room && room.hasTemperature
+                roomTemperature: room ? room.temperature : 0
+                roomName: room ? room.name : ""
+                nameVisible: !reduced
+            }
+
+            Image {
+                id: indoorWeatherImage
+                source: "/weather/indoor_icon.png"
+            }
+        }
+
+        Repeater {
+            model: __private.indoorWeatherData.rooms
+            delegate: IndoorWeatherDelegate {
+                id: secondaryRoomDelegate
+
+                roomHasTemperature: hasTemperature
+                roomTemperature: temperature
+                roomName: name
+                nameVisible: !reduced
+
+                property real maxOpacity: 0.8
+
+                visible: opacity > .0 && __private.mainRoom && uuid !== __private.mainRoom.uuid
+                opacity: !reduced ? maxOpacity : 0.0
+
+                anchors.right: indoorTemperatureRow.right
+                anchors.left: indoorTemperatureRow.left
+                anchors.rightMargin: 10
+
+                roomNameTextItem.maximumLineCount: 1
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: Constants.displayAnimationDuration
+                        easing.type: !root.reduced ? Easing.OutSine : Easing.InSine
+                    }
+                }
+            }
         }
     }
 }

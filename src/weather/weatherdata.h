@@ -6,7 +6,18 @@
 #include <QTime>
 
 #include "abstractweatherapiaccess.h"
+#include "indoorweatherdata.h"
 #include "settings/weathersettings.h"
+
+// NOTE (camar) : Maybe better to make OutdoorData and IndoorData structs some classes to access it
+// from QML instead of having the Q_PROPERTIES into WeatherData class ?
+struct OutdoorData {
+    AbstractWeatherAPIAccess* api = nullptr;
+    quint16 temperature = 0; // centiKelvin (°K * 100)
+    quint8 humidityPercentage = 0;
+    QTime sunriseTime = QTime(0, 0);
+    QTime sunsetTime = QTime(0, 0);
+};
 
 /*!
  * \brief This class contains weather data.
@@ -19,28 +30,33 @@ class WeatherData : public QObject {
     Q_PROPERTY(quint8 humidityPercentage READ humidityPercentage NOTIFY humidityPercentageChanged)
     Q_PROPERTY(QTime sunriseTime READ sunriseTime NOTIFY sunriseTimeChanged)
     Q_PROPERTY(QTime sunsetTime READ sunsetTime NOTIFY sunsetTimeChanged)
-    Q_PROPERTY(quint16 indoorTemperature READ indoorTemperature NOTIFY indoorTemperatureChanged)
-
+    Q_PROPERTY(IndoorWeatherData* indoorWeatherData READ indoorWeatherData CONSTANT)
     Q_PROPERTY(AbstractWeatherAPIAccess* api READ api CONSTANT)
     Q_PROPERTY(WeatherSettings* settings READ settings CONSTANT)
 
 public:
     explicit WeatherData(WeatherSettings* settings, QObject* parent = nullptr);
 
-    quint16 outdoorTemperature() const { return m_outdoorTemperature; }
-    quint8 humidityPercentage() const { return m_humidityPercentage; }
-    QTime sunriseTime() const { return m_sunriseTime; }
-    QTime sunsetTime() const { return m_sunsetTime; }
-    quint16 indoorTemperature() const { return m_indoorTemperature; }
-    AbstractWeatherAPIAccess* api() const { return m_api; }
+    quint16 outdoorTemperature() const { return m_outdoorData.temperature; }
+    quint8 humidityPercentage() const { return m_outdoorData.humidityPercentage; }
+    QTime sunriseTime() const { return m_outdoorData.sunriseTime; }
+    QTime sunsetTime() const { return m_outdoorData.sunsetTime; }
+    AbstractWeatherAPIAccess* api() const { return m_outdoorData.api; }
+
+    IndoorWeatherData* indoorWeatherData() { return &m_indoorWeatherData; }
+
     WeatherSettings* settings() const { return m_settings; }
+
+    void setOutdoorTemperature(quint16 outdoorTemperature);
+    void setHumidityPercentage(quint8 humidityPercentage);
+    void setSunriseTime(QTime sunriseTime);
+    void setSunsetTime(QTime sunsetTime);
 
 signals:
     void outdoorTemperatureChanged();
     void humidityPercentageChanged();
     void sunriseTimeChanged();
     void sunsetTimeChanged();
-    void indoorTemperatureChanged();
 
 private slots:
     void parseReceivedJsonData(QJsonDocument jsonData);
@@ -48,22 +64,8 @@ private slots:
 private:
     void setAPI(AbstractWeatherAPIAccess* api);
 
-    void setOutdoorTemperature(quint16 outdoorTemperature);
-    void setHumidityPercentage(quint8 humidityPercentage);
-    void setSunriseTime(QTime sunriseTime);
-    void setSunsetTime(QTime sunsetTime);
-    void setIndoorTemperature(quint16 indoorTemperature);
-
-    // NOTE (camar) : Maybe better to separate outdoor and indoor data
-    // outdoor
-    AbstractWeatherAPIAccess* m_api = nullptr;
-    quint16 m_outdoorTemperature = 0; // centiKelvin (°K * 100)
-    quint8 m_humidityPercentage = 0;
-    QTime m_sunriseTime = QTime(0, 0);
-    QTime m_sunsetTime = QTime(0, 0);
-
-    // indoor
-    quint16 m_indoorTemperature = 0; // centiKelvin (°K * 100)
+    OutdoorData m_outdoorData;
+    IndoorWeatherData m_indoorWeatherData;
 
     WeatherSettings* m_settings = nullptr;
 };
